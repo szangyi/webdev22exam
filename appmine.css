@@ -1,0 +1,244 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* you want everything to obey the rules of CSS */
+    font-family: system-ui;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    overflow-y: scroll;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.center {
+    align-items: center;
+}
+
+.cont-center {
+    justify-content: center;
+}
+
+.m-01-l {
+    margin-left: 1rem;
+}
+
+.m-02-t {
+    margin-top: 2rem;
+}
+
+.text-b {
+    color: black;
+}
+
+.text-w {
+    color: white;
+}
+
+.text-sm {
+    font-size: .5rem;
+}
+
+.text-stamp {
+    color: white;
+    font-size: .7rem;
+}
+
+.text-md {
+    font-weight: 600;
+    font-size: .8rem;
+}
+
+.text-lg {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.text-slim {
+    font-weight: 300;
+}
+
+nav {
+    /* display: grid; */
+    width: 100%;
+    /* grid-template-columns: repeat(5, 100fr); */
+    display: flex;
+    padding: 0 1rem;
+    align-items: center;
+    justify-items: center;
+    height: 4rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+nav a {
+    text-transform: uppercase;
+    color: black;
+    display: inline-block;
+    margin-right: 3rem;
+    font-size: .8rem;
+    font-weight: 800;
+    transition: .3s ease-out;
+}
+
+nav a:hover {
+    color: #4158D0
+}
+
+nav[class*="nav-loggedin"] a:last-of-type {
+    margin-right: 1rem;
+    position: absolute;
+    right: 0;
+}
+
+main {
+    margin-top: 5rem;
+    padding: 0 1rem;
+}
+
+body {
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: .2rem;
+    background: white;
+}
+
+.item {
+    width: 100%;
+    padding: .5rem;
+    border: 1px solid #999;
+    background: white;
+}
+
+button a {
+    color: black;
+}
+
+button {
+    text-transform: uppercase;
+    font-size: .7rem;
+    font-weight: 600;
+    padding: 0.5rem 2rem;
+    margin-top: 2rem;
+    border-radius: 10rem;
+    border: 0;
+    background: rgba(255, 255, 255, 0.616);
+    transition: .5s ease-out;
+    color: black;
+}
+
+button:hover {
+    background: rgba(255, 255, 255);
+}
+
+.button-02 {
+    margin-top: 0;
+    margin-right: .3rem;
+}
+
+.inline {
+    display: flex;
+    justify-content: center;
+}
+
+.inline p {
+    font-weight: 600;
+}
+
+.inline button {
+    margin-top: 0;
+    margin: 0 .6rem;
+}
+
+.logout {
+    text-align: right;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+h3.text-center {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+form>div {
+    margin-top: .5rem;
+}
+
+input {
+    border: 0;
+    padding: 0.2rem 0.5rem;
+    margin-left: 1rem;
+    font-size: .8rem;
+}
+
+.text-support {
+    font-size: .6rem;
+    margin-top: .3rem;
+}
+
+.error {
+    margin-top: .1rem;
+    font-weight: 600;
+    font-size: .7rem;
+    /* color: rgb(231, 158, 12); */
+    color: rgb(187, 0, 0);
+}
+
+.container-post-tweet {
+    align-self: center;
+    width: fit-content;
+    padding: 2rem 10rem;
+    border: 1px solid white;
+    border-radius: 10rem;
+    background: rgba(255, 255, 255, 0.347);
+}
+
+.tweet-container {
+    padding: 2rem 0 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.349);
+}
+
+.tweet {
+    display: flex;
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/app.css">
+  <title>Document</title>
+
+</head>
+<body class="font-light overflow-y-scroll">
+
+  <div id="app" class="flex h-screen w-full">
+    
+    % # Side navbar
+    <div id="left_panel" class="flex flex-col justify-between w-1/4 border-r border-lighter px-8 py-4">
+
+      <div class="">
+        <a class="flex items-center py-2 px-4 text-slate-700 hover:bg-lightblue hover:text-blue bg-slate-200 
+                  rounded-full mb-2 cursor-pointer select-none">
+          <i class="fas fa-microphone fa-fw text-2xl mr-4"></i>
+          <p class="text-2xl font-semibold">Szangyi twitter</p>
+        </a>
+ 
+
+        <button class="w-full text-white bg-blue rounded-full p-3 hover:bg-darkblue">
+          Talk
+        </button>
+      </div>
+      <div class="w-full">
+        <button class="flex items-center w-full">
+          <img src="/images/elon.jpg" class="w-12 h-12 rounded-full border border-light">
+          <div class="ml-3 text-sm">
+            <p class="font-bold">Santiago Donoso</p>
+            <p>@santiagodonoso</p>
+          </div>
+          <i class="fas fa-angle-down ml-auto"></i>
+        </button>
+     </div>
+    </div>
+    % # end side navbar
+
+
+
+    <!--
+    % ##############################
+    % # tweets
+    <div class="w-2/4 h-full">
+      % for tweet in tweets:
+      <div class="flex p-4 border-t">
+        <div class="w-auto">
+          <img src="/images/{{tweet['src']}}" class="w-12 h-12 rounded-full">
+        </div>
+        <div class="ml-4 w-full">
+          <div class="flex">
+            <p class="font-bold">{{tweet['user_name']}}</p>
+            <p class="ml-2">{{tweet['talk_name']}}</p>
+            <p class="ml-auto">{{tweet['date']}}</p>
+          </div>
+          <p class="mt-4">
+            {{tweet['text']}}
+          </p>
+          % if "image" in tweet:
+          <img src="/images/{{tweet['image']}}" class="w-full h-80 object-cover mt-2">
+          % end
+       
+        </div>
+      </div>
+      % end
+    </div>
+    % # end tweets 
+  -->
+
+
+
+    % # center
+    <div class="w-2/4 h-full">
+
+        <div class="px-4">
+            <form class="flex relative p-4 border border-blue1 rounded">
+                <input class="w-full h-12 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
+                    placeholder="What is in your mind ?">
+                <button class="absolute bottom-2 right-2 px-8 py-2 bg-blue2 text-white rounded-full bg-pink-300">
+                    Tweet
+                </button>
+            </form>
+        </div>
+
+        <div class="voices mt-4">
+            % for tweet in tweets:
+            <div class="p-4 border-t border-slate-200">
+                <div class="flex">
+                    <img class="flex-none w-12 h-12 rounded-full" src="/images/{{tweet['src']}}" alt="">
+                    <div class="w-full pl-4">
+                        <p class="font-bold">
+                          {{tweet['talk_name']}}
+                        </p>
+                        <p class="font-thin">
+                          {{tweet['user_name']}}
+                        </p>
+                        <div class="pt-2">
+                          {{tweet["text"]}}
+                        </div>
+
+                        <div class="flex gap-12 w-full mt-4 text-lg">
+                            <i class="fa-solid fa-message ml-auto"></i>
+                            <i class="fa-solid fa-heart"></i>
+                            <i class="fa-solid fa-retweet"></i>
+                            <i class="fa-solid fa-share-nodes"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            % end
+        </div>
+    </div>
+    % # end center
+    
+    
+    
+    % ##############################
+    % # right panel
+    <div class="w-1/4 h-full border-l border-lighter px-4 py-4">
+      <div class="relative">
+        <input type="text" class="w-full rounded-full py-3 pl-12 pr-4 bg-lighter outline-none mb-2" placeholder="Search Fair Talk">
+        <i class="fas fa-search absolute top-4 left-5 text-lg text-light"></i>
+      </div>
+      % # You might like
+      <div class="bg-lightest rounded-lg p-4">
+        <p class="text-lg font-bold mb-4">
+          You might like
+        </p>
+        <div class="">
+          % for person in people:
+          <div class="flex items-center w-full mt-4">
+            <img src="/images/{{person['src']}}" class="w-10 h-10 rounded-full border border-light">
+            <div class="ml-3 text-sm">
+              <p class="font-bold">
+                {{person['name']}}
+              </p>
+              <p>
+                {{person['handle']}}
+              </p>
+            </div>
+            <button class="ml-auto rounded-full bg-white border border-blue text-blue px-6 py-1 font-bold">
+              Follow
+            </button>
+          </div> 
+          % end
+        </div>
+      </div>
+      % # end you might like
+      % # trending
+        <div class="w-full bg-lightest rounded-lg mt-2">
+          <div class="flex items-center w-full p-2">
+            <p class="text-lg font-bold">
+              Trends for you
+            </p>
+            <i class="fas fa-cog ml-auto text-lg text-blue"></i>
+          </div>
+          % for trend in trends:
+          <a class="flex w-full border-t p-2 hover:bg-lighter cursor-pointer">
+            <div class="">
+              <p class="">
+                {{trend["top"]}}
+              </p>
+              <p class="font-bold">
+                {{trend["title"]}}
+              </p>
+              <p class="">
+                {{trend["bottom"]}}
+              </p>                            
+            </div>
+            <i class="fas fa-angle-down ml-auto text-lg text-light"></i>
+          </a>
+          % end
+        </div>
+      % # end trending
+    </div>
+    % # end right panel
+
+
+
+
+  </div>
+  % # end app
+
+  <script src="app.js"></script>
+
+</body>
+</html>

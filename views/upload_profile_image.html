@@ -1,0 +1,33 @@
+% include("header_page_secondary", title="Upload profile image")
+
+
+<body class="bg-blue">
+    <main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+        <section>
+            <h3 class="font-bold text-2xl">Upload profile picture</h3>
+        </section>
+
+        <section class="mt-10">
+            <form class="flex flex-col" action="/upload_profile_image" method="POST" enctype="multipart/form-data">
+
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_profile_image"></label>
+                    <input name="user_id" id="user_id" type="hidden" value='{{ user["user_id"] }}'>
+                    <input type="file" id="user_profile_image" name="upload">
+                </div>
+
+
+                <button
+                    class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                    type="submit">Upload</button>
+            </form>
+        </section>
+    </main>
+
+    <div class="max-w-lg mx-auto text-center mt-12 mb-6">
+        <form action="/upload_default_profile_image" method="POST"  enctype="multipart/form-data">
+            <button type="submit" class="text-white font-bold hover:underline">Skip</button>
+        </form>
+    </div>
+
+    % include("footer")

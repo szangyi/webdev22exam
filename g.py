@@ -13,7 +13,7 @@ TWEETS = []
 
 TABS_LOGGEDIN = [
   {"icon": "fa fa-home", "title": "Home", "id":"home", "href":"./index"},
-  {"icon": "fa fa-user", "title": "Profile", "id": "profile", "href":"./user_profile"},
+  {"icon": "fa fa-user", "title": "Profile", "id": "profile", "href":"./user_profile_my"},
 ]
 
 TABS_LOGGEDOUT = [

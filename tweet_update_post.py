@@ -59,4 +59,4 @@ def _(tweet_id):
         print(ex)
     finally:
         db.close()
-    return redirect("/user_profile")
+    return redirect("/user_profile_my")

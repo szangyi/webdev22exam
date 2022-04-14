@@ -35,7 +35,8 @@ import home_get_loggedout   # GET
 import signup_get           # GET   
 import login_get            # GET
 import logout_get           # GET
-import user_profile_get     # GET
+import user_profile_my_get  # GET
+import user_profile_any_get  # GET
 import upload_profile_image_get  #GET
 
 import signup_post          # POST

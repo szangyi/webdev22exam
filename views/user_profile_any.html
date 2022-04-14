@@ -1,6 +1,6 @@
-% include("header_page_primary", title="Twitter")
+% include("header_page_primary", title="My profile")
 
-<!-- <body> -->
+<body>
     <div id="app" class="flex h-screen w-full">
 
         % # Side navbar
@@ -27,12 +27,7 @@
             </div>
             <div class="w-full">
                 <button class="flex items-center w-full">
-                    %if not user['image_ref']:
-                    <img src="images/default_user_profile_image.jpg" class="w-12 h-12 rounded-full border border-light">
-                    %else:
-                    <img src="images/{{ user['image_ref'] }}" class="w-12 h-12 rounded-full border border-light">
-                    %end
-
+                    <img src="images/{{user['image_ref']}}" class="w-12 h-12 rounded-full border border-light">
                     <div class="ml-3 text-sm">
                         <p class="font-bold">{{user["user_first_name"]}} {{user["user_last_name"]}}</p>
                         <p>@{{user["user_nick_name"]}}</p>
@@ -48,48 +43,44 @@
         <div class="w-2/4 h-full">
 
             <div class="px-4">
-                <form action="/tweet_add" method="POST" class="flex relative p-4 border border-blue1 rounded">
-                    <img src="images/{{ user['image_ref'] }}" class="w-12 h-12 rounded-full border border-light">
-                    <input class="w-full h-12 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
-                        placeholder="What is in your mind ?" name="tweet_text" id="tweet_text">
-                    <button class="absolute bottom-2 right-2 px-8 py-2 bg-blue2 text-white rounded-full bg-pink-300">
-                        Tweet
-                    </button>
-                </form>
+                <img src="images/{{user_any['image_ref']}}" class="w-12 h-12 rounded-full border border-light">
+
+                <p class="font-bold">
+                    {{user_any["user_first_name"]}}
+                    {{user_any["user_last_name"]}}
+
+                </p>
+                <p class="text-gray-400 text-sm font-light">
+                    @{{user_any["user_nick_name"]}}
+                </p>
+                <p class="text-gray-400 text-sm font-light">
+                    <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                    Joined {{user_any["user_created_at"]}}
+                </p>
             </div>
 
             <div class="voices mt-4">
                 % for tweet in tweets:
                 <div class="p-4 border-t border-slate-200">
                     <div class="flex">
-                        <div class="w-full pl-4">
-                            <div class="pt-2">
-                                <div class="flex">
-                                 <form action="user_profile_any" method="GET">
-                                    <img src="images/{{ tweet['image_ref'] }}" class="w-12 h-12 rounded-full border border-light">
-                                    <input type="hidden" id="user_any_email" name="user_any_email" value="{{tweet['user_email']}}"> </input>
-                                    <input type="hidden" id="user_any_id" name="user_any_id" value="{{tweet['user_id']}}"> </input>
-                                    <button class="font-bold">
-                                        {{tweet["user_first_name"]}}
-                                        {{tweet["user_last_name"]}} 
-                                    </button>
-                                    <p class="ml-2"> @{{tweet["user_nick_name"]}}
-                                         · {{tweet["tweet_created_at"]}}
-                                    </p>
-                                </form>
-                                </div>
+                        <div class="w-full pl-4 TWEET">
 
-
-                                {{tweet["tweet_text"]}}
+                            <div class="flex">
+                                <p class="font-bold">
+                                    {{tweet["user_first_name"]}}
+                                    {{tweet["user_last_name"]}}
+                                </p>
+                                <p class="ml-2 text-gray-400 font-normal"> @{{tweet["user_nick_name"]}}
+                                    · {{tweet["tweet_created_at"]}}
+                                </p>
                             </div>
-                            
 
-                            <div class="flex gap-12 w-full mt-4 text-lg">
-                                <i class="fa fa-comment-o" aria-hidden="true"></i>
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                <i class="fa fa-retweet" aria-hidden="true"></i>
-                                <i class="fa fa-share" aria-hidden="true"></i>
+                            <div class="tweet">
+                                <p class="hidden">{{tweet["tweet_id"] }}</p>
+                                <p>{{tweet["tweet_text"]}}</p>
+                                <p>{{tweet["tweet_created_at"]}}</p>
                             </div>
+
                         </div>
                     </div>
                 </div>

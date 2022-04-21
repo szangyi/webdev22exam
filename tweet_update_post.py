@@ -40,10 +40,12 @@ def _(tweet_id):
         ### CONNECT TO DB AND EXECUTE ###
         db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
         cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
-        sql = """ UPDATE  tweets 
-                SET tweet_text =%s,
-                tweet_updated_at =%s
-        WHERE tweet_id=%s"""       
+        sql = """ 
+            UPDATE tweets 
+            SET tweet_text =%s,
+            tweet_updated_at =%s
+            WHERE tweet_id=%s
+            """       
 
         var = (tweet_text_update, tweet_updated_at, tweet_id)
         cur.execute(sql, var)

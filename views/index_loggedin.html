@@ -1,173 +1,92 @@
 % include("header_page_primary", title="Twitter")
 
 <!-- <body> -->
-    <div id="app" class="flex h-screen w-full">
+<div id="app" class="flex h-screen w-full">
 
-        % # Side navbar
-        <div id="left_panel" class="flex flex-col justify-between w-1/4 border-r border-lighter px-8 py-4">
+    % include("sidebar_loggedin")
 
-            <div class="">
-                <a class="flex items-center py-2 px-4 text-blue ">
-                    <i class="fa fa-twitter fa-fw text-2xl mr-4" aria-hidden="true"></i>
-                </a>
+    % # center
+    <div class="w-2/4 h-full">
 
-                % for tab in tabs:
-                <div class="mt-6">
-                    <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="{{tab['href']}}">
-                        <i class="{{tab['icon']}}" aria-hidden="true"></i>
-                        <span class="ml-2">{{tab['title']}}</span>
-                    </a>
+        <p class="font-bold text-xl p-4">Home</p>
+
+        <div class="tweet-add-container p-4 mt-4">
+            <form action="/tweet_add" method="POST" class=" relative px-4 pt-4 pb-2 border border-blue1 rounded min-h-[8rem]">
+                <div class="flex">
+                    <img src="images/{{ user['image_ref'] }}"
+                        class="object-cover w-12 h-12 mr-4 rounded-full border border-light shrink-0">
+                    <textarea class="w-full text-gray-800 border- outline-none placeholder:text-gray-800 pt-2 text-xl"
+                        placeholder="What is in your mind ?" name="tweet_text" id="tweet_text"></textarea>
                 </div>
-                % end
-
-                <button class="mt-10 w-full text-white bg-blue rounded-full p-3 hover:bg-darkblue">
-                    <a href="./logout"> Log out</a>
-                </button>
-
-            </div>
-            <div class="w-full">
-                <button class="flex items-center w-full">
-                    %if not user['image_ref']:
-                    <img src="images/default_user_profile_image.jpg" class="w-12 h-12 rounded-full border border-light">
-                    %else:
-                    <img src="images/{{ user['image_ref'] }}" class="w-12 h-12 rounded-full border border-light">
-                    %end
-
-                    <div class="ml-3 text-sm">
-                        <p class="font-bold">{{user["user_first_name"]}} {{user["user_last_name"]}}</p>
-                        <p>@{{user["user_nick_name"]}}</p>
-                    </div>
-                    <i class="fa fa-angle-down ml-auto" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-        % # end side navbar
-
-
-        % # center
-        <div class="w-2/4 h-full">
-
-            <div class="px-4">
-                <form action="/tweet_add" method="POST" class="flex relative p-4 border border-blue1 rounded">
-                    <img src="images/{{ user['image_ref'] }}" class="w-12 h-12 rounded-full border border-light">
-                    <input class="w-full h-12 text-gray-800 rounded outline-none placeholder:text-gray-800" type="text"
-                        placeholder="What is in your mind ?" name="tweet_text" id="tweet_text">
-                    <button class="absolute bottom-2 right-2 px-8 py-2 bg-blue2 text-white rounded-full bg-pink-300">
+                <div class="flex flex-col mt-2">
+                    <button class="self-end bottom-2 right-2 px-4 py-2 bg-blue hover:bg-darkblue text-white font-bold rounded-full">
                         Tweet
                     </button>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
 
-            <div class="voices mt-4">
-                % for tweet in tweets:
-                <div class="p-4 border-t border-slate-200">
-                    <div class="flex">
-                        <div class="w-full pl-4">
-                            <div class="pt-2">
-                                <div class="flex">
-                                 <form action="user_profile_any" method="GET">
-                                    <img src="images/{{ tweet['image_ref'] }}" class="w-12 h-12 rounded-full border border-light">
-                                    <input type="hidden" id="user_any_email" name="user_any_email" value="{{tweet['user_email']}}"> </input>
-                                    <input type="hidden" id="user_any_id" name="user_any_id" value="{{tweet['user_id']}}"> </input>
-                                    <button class="font-bold">
-                                        {{tweet["user_first_name"]}}
-                                        {{tweet["user_last_name"]}} 
-                                    </button>
-                                    <p class="ml-2"> @{{tweet["user_nick_name"]}}
-                                         · {{tweet["tweet_created_at"]}}
-                                    </p>
+        <div class="mt-4">
+            % for tweet in tweets:
+            <div class="p-4 border-t border-slate-200">
+                <div class="flex">
+                    <div class="w-full pl-4">
+                        <div class="pt-2">
+                            <div class="flex">
+                                <form action="user_profile_any" method="GET">
+                                    <div class="flex">
+                                        <div class="mr-3">
+                                            <img src="images/{{ tweet['image_ref'] }}"
+                                                class="object-cover w-12 h-12 rounded-full border border-light shrink-0 mb-2">
+                                            <input type="hidden" id="user_any_email" name="user_any_email"
+                                                value="{{ tweet['user_email'] }}"> </input>
+                                            <input type="hidden" id="user_any_id" name="user_any_id"
+                                                value="{{tweet['user_id']}}"> </input>
+                                        </div>
+                                        <div>
+                                            <div class="flex">
+                                                <button class="font-bold text-sm">
+                                                    {{tweet["user_first_name"]}}
+                                                    {{tweet["user_last_name"]}}
+                                                </button>
+                                                <p class="ml-1 text-sm text-gray-400"> @{{tweet["user_nick_name"]}}
+                                                    · {{tweet["tweet_created_at"]}}
+                                                </p>
+                                            </div>
+                                            <p class="text-sm mt-1">
+                                                {{tweet["tweet_text"]}}
+                                            </p>
+                    
+                                                <div class="flex gap-12 w-full mt-6 text-lg text-gray-400 font-sm">
+                                                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                                                    <i class="fa fa-regular fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-retweet" aria-hidden="true"></i>
+                                                    <i class="fa fa-share" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
-                                </div>
-
-
-                                {{tweet["tweet_text"]}}
                             </div>
-                            
 
-                            <div class="flex gap-12 w-full mt-4 text-lg">
-                                <i class="fa fa-comment-o" aria-hidden="true"></i>
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                <i class="fa fa-retweet" aria-hidden="true"></i>
-                                <i class="fa fa-share" aria-hidden="true"></i>
-                            </div>
+                         
                         </div>
+
+
+                      
                     </div>
                 </div>
-                % end
             </div>
+            % end
         </div>
-        % # end center
-
-
-
-        % ##############################
-        % # right panel
-        <div class="w-1/4 h-full border-l border-lighter px-4 py-4">
-            <div class="relative">
-                <input type="text" class="w-full rounded-full py-3 pl-12 pr-4 bg-lighter outline-none mb-2"
-                    placeholder="Search Fair Talk">
-                <i class="fa fa-search absolute top-4 left-5 text-lg text-light" aria-hidden="true"></i>
-            </div>
-            % # You might like
-            <div class="bg-lightest rounded-lg p-4">
-                <p class="text-lg font-bold mb-4">
-                    You might like
-                </p>
-                <div class="">
-                    % for person in people:
-                    <div class="flex items-center w-full mt-4">
-                        <!-- <img src="/images/{{person['src']}}" class="w-10 h-10 rounded-full border border-light"> -->
-                        <div class="ml-3 text-sm">
-                            <p class="font-bold">
-                                {{person['name']}}
-                            </p>
-                            <p>
-                                {{person['handle']}}
-                            </p>
-                        </div>
-                        <button class="ml-auto rounded-full bg-white border border-blue text-blue px-6 py-1 font-bold">
-                            Follow
-                        </button>
-                    </div>
-                    % end
-                </div>
-            </div>
-            % # end you might like
-            % # trending
-            <div class="w-full bg-lightest rounded-lg mt-2">
-                <div class="flex items-center w-full p-2">
-                    <p class="text-lg font-bold">
-                        Trends for you
-                    </p>
-                    <i class="fa fa-cog ml-auto text-lg text-blue" aria-hidden="true"></i>
-                </div>
-                % for trend in trends:
-                <a class="flex w-full border-t p-2 hover:bg-lighter cursor-pointer">
-                    <div class="">
-                        <p class="">
-                            {{trend["top"]}}
-                        </p>
-                        <p class="font-bold">
-                            {{trend["title"]}}
-                        </p>
-                        <p class="">
-                            {{trend["bottom"]}}
-                        </p>
-                    </div>
-                    <i class="fa fa-angle-down ml-auto text-lg text-light" aria-hidden="true"></i>
-                </a>
-                % end
-            </div>
-            % # end trending
-        </div>
-        % # end right panel
-
-
-
-
     </div>
-    % # end app
+    % # end center
+
+
+    % include("rightpanel")
+
+</div>
+% # end app
 
 
 
-    % include("footer")
+% include("footer")

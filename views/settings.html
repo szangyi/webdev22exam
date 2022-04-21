@@ -1,0 +1,42 @@
+% include("header_page_primary", title="My profile")
+
+<body>
+    <div id="app" class="flex h-screen w-full">
+
+        % include("sidebar_loggedin")
+
+
+        % # center
+        <div class="w-2/4 h-full">
+
+            <section class="mt-10">
+                <form action="settings" method="POST">
+                    <input name="user_id" type="hidden" value='{{ user["user_id"] }}'>
+                    
+                    <div class="mb-6 pt-3 rounded">
+                        <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_first_name">First Name</label>
+                        <input name="user_first_name" type="text" value='{{ user["user_first_name"] }}'
+                            class="w-full text-gray-700 focus:outline-none border-gray-300 px-3 pb-3" >
+                    </div>
+
+                    <div class="mb-6 pt-3 rounded">
+                        <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_last_name">Last Name</label>
+                        <input name="user_last_name" type="text" value='{{ user["user_last_name"] }}'
+                            class="w-full text-gray-700 focus:outline-none border-gray-300 px-3 pb-3" >
+                    </div>
+ 
+                    <button class="button-02"> <i class="fa fa-pencil" aria-hidden="true"></i></button>
+                </form>
+            </section>
+        </div>
+        % # end center
+
+
+        % include("rightpanel")
+        
+    </div>
+    % # end app
+
+
+
+    % include("footer")

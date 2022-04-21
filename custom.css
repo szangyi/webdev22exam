@@ -1,0 +1,29 @@
+.validate_error {
+    border: 1px solid #E40000;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.rounded-top {
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.rounded-bottom {
+    border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.text-xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.pl-10 {
+    padding-left: 15rem
+}
+
+.pr-5 {
+    padding-right: 5rem;
+}
+
+.mr-3 {
+    margin-right: .75rem;
+  }

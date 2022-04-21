@@ -2,53 +2,118 @@
 
 
 <body class="bg-blue">
-<main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
-    <section>
-        <h3 class="font-bold text-2xl">Sign up</h3>
-    </section>
+    <main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+        <section>
+            <h3 class="font-bold text-2xl">Sign up</h3>
+        </section>
 
-    <section class="mt-10">
-        <form class="flex flex-col" method="POST" action="/signup">
+      
 
-            <div class="mb-6 pt-3 rounded bg-gray-200">
-                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_first_name">First Name</label>
-                <input name="user_first_name" type="text" value=""
-                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" >
-            </div>
+        <section class="mt-10">
+            <form class="flex flex-col" method="POST" action="/signup" onsubmit="validate(); return false">
 
-            <div class="mb-6 pt-3 rounded bg-gray-200">
-                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_last_name">Last Name</label>
-                <input name="user_last_name" type="text" value=""
-                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" >
-            </div>
+                <!-- <section>
 
-            <div class="mb-6 pt-3 rounded bg-gray-200">
-                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_nick_name">@nickname</label>
-                <input name="user_nick_name" type="text" value=""
-                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" >
-            </div>
+                    %if error == "user_first_name":
+                    <div class="error">
+                        <p>First name is too short</p>
+                    </div>
+                    %end
+        
+                    %if error == "user_last_name":
+                    <div class="error">
+                        <p>Last name is too short</p>
+                    </div>
+                    %end
+        
+                    %if error == "user_nick_name":
+                    <div class="error">
+                        <p>nick name is too short</p>
+                    </div>
+                    %end
+        
+                    %if error == "user_email":
+                    <div class="error">
+                        <p> The email is not in a validat format</p>
+                    </div>
+                    %end
+        
+                    %if error == "user_password":
+                    <div class="error">
+                        <p>Please enter a valid password</p>
+                    </div>
+                    %end
+                
+                </section> -->
 
-            <div class="mb-6 pt-3 rounded bg-gray-200">
-                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="email">Email</label>
-                <input name="user_email" type="text" id="user_email" value="a@a.com"
-                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" >
-            </div>
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_first_name">First
+                        Name</label>
+                    <input name="user_first_name" type="text" value="{{user_first_name or ''}}" 
+                        class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-blue transition duration-500 px-3 pb-1 pt-1"
+                        data-validate="str" data-min="1" data-max="100">
+                    <span class="bg-lighterror p-2 rounded-bottom text-error items-center flex hidden">
+                        <i class="ml-2 fa fa-exclamation-circle"></i>
+                        <p class="ml-2 text-xs">Minimum 2 characters.</p>
+                    </span>
+                </div>
 
-            <div class="mb-6 pt-3 rounded bg-gray-200">
-                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Password</label>
-                <input name="user_password" type="password" id="user_password" value=""
-                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
-            </div>
-            
-            <button
-                class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
-                type="submit">Sign up</button>
-        </form>
-    </section>
-</main>
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_last_name">Last
+                        Name</label>
+                    <input name="user_last_name" type="text" value="{{user_last_name or ''}}"
+                        class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-blue transition duration-500 px-3 pb-1 pt-1"
+                        data-validate="str" data-min="1" data-max="100">
+                    <span class="bg-lighterror p-2 rounded-bottom text-error items-center flex hidden">
+                        <i class="ml-2 fa fa-exclamation-circle"></i>
+                        <p class="ml-2 text-xs">Minimum 2 characters.</p>
+                    </span>
+                </div>
 
-<div class="max-w-lg mx-auto text-center mt-12 mb-6">
-    <p class="text-white">Already have an account? <a href="/login" class="font-bold hover:underline">Log in</a>.</p>
-</div>
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3"
+                        for="user_nick_name">@nickname</label>
+                    <input name="user_nick_name" type="text" value="{{user_nick_name or ''}}"
+                        class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-blue transition duration-500 px-3 pb-1 pt-1"
+                        data-validate="str" data-min="4" data-max="15">
+                    <span class="bg-lighterror p-2 rounded-bottom text-error text-xs items-center flex hidden">
+                        <i class="ml-2 fa fa-exclamation-circle"></i>
+                        <p class="ml-2 text-xs">Between 4 and 15 characters.</p>
+                    </span>
+                </div>
 
-% include("footer")
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="email">Email</label>
+                    <input name="user_email" type="text" id="user_email" value="{{user_email or ''}}"
+                        class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-blue transition duration-500 px-3 pb-1 pt-1"
+                        data-validate="email">
+                    <span class="bg-lighterror p-2 rounded-bottom text-error items-center flex hidden">
+                        <i class="ml-2 fa fa-exclamation-circle"></i>
+                        <p class="ml-2 text-xs">Please provide a valid e-mail address.</p>
+                    </span>
+                </div>
+
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Password</label>
+                    <input name="user_password" type="password" id="user_password" value="{{user_password or ''}}"
+                        class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-blue transition duration-500 px-3 pb-1 pt-1"
+                        data-validate="str" data-min="10" data-max="100">
+                    <span class="bg-lighterror p-2 rounded-bottom text-error items-center flex hidden">
+                        <i class="ml-2 fa fa-exclamation-circle"></i>
+                        <p class="ml-2 text-xs">Minimum 10 characters.</p>
+                    </span>
+                </div>
+
+                <button type="submit"
+                    class="bg-blue hover:bg-darkblue text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                    >Sign up</button>
+            </form>
+        </section>
+    </main>
+
+    <div class="max-w-lg mx-auto text-center mt-12 mb-6">
+        <p class="text-white">Already have an account? <a href="/login" class="font-bold hover:underline">Log in</a>
+        </p>
+    </div>
+
+    % include("footer")

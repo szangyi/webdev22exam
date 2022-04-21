@@ -3,35 +3,7 @@
 <!-- <body> -->
     <div id="app" class="flex h-screen w-full">
 
-        % # Side navbar
-        <div id="left_panel" class="flex flex-col justify-between w-1/4 border-r border-lighter px-8 py-4">
-
-            <div class="">
-                <a class="flex items-center py-2 px-4 text-blue ">
-                    <i class="fa fa-twitter fa-fw text-2xl mr-4" aria-hidden="true"></i>
-                </a>
-
-                % for tab in tabs:
-                <div class="mt-6">
-                    <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="">
-                        <i class="{{tab['icon']}}" aria-hidden="true"></i>
-                        <span class="ml-2">{{tab['title']}}</span>
-                    </a>
-                </div>
-              
-                % end
-
-                <button class="mt-10 w-full text-white bg-blue rounded-full p-3 hover:bg-darkblue">
-                    <a href="./login"> Log in</a>
-                </button>
-                <button class="mt-2 w-full text-black bg-light rounded-full p-3 hover:bg-darkblue">
-                    <a href="./signup">Sign up</a>
-                </button>
-            </div>
-
-        </div>
-        % # end side navbar
-
+        % include("sidebar_loggedout")
 
         % # center
         <div class="w-2/4 h-full">
@@ -44,7 +16,7 @@
                             <div class="pt-2">
                                 <div class="flex">
                                   
-                                    <img src="images/{{ tweet['image_ref'] }}" class="w-12 h-12 rounded-full border border-light">
+                                    <img src="images/{{ tweet['image_ref'] }}" class="object-cover w-12 h-12 rounded-full border border-light shrink-0">
                                   
                                     <p class="font-bold">
                                         {{tweet["user_first_name"]}}
@@ -67,76 +39,13 @@
         </div>
         % # end center
 
-
-
-        % ##############################
-        % # right panel
-        <div class="w-1/4 h-full border-l border-lighter px-4 py-4">
-            <div class="relative">
-                <input type="text" class="w-full rounded-full py-3 pl-12 pr-4 bg-lighter outline-none mb-2"
-                    placeholder="Search Fair Talk">
-                <i class="fa fa-search absolute top-4 left-5 text-lg text-light" aria-hidden="true"></i>
-            </div>
-            % # You might like
-            <div class="bg-lightest rounded-lg p-4">
-                <p class="text-lg font-bold mb-4">
-                    You might like
-                </p>
-                <div class="">
-                    % for person in people:
-                    <div class="flex items-center w-full mt-4">
-                        <!-- <img src="/images/{{person['src']}}" class="w-10 h-10 rounded-full border border-light"> -->
-                        <div class="ml-3 text-sm">
-                            <p class="font-bold">
-                                {{person['name']}}
-                            </p>
-                            <p>
-                                {{person['handle']}}
-                            </p>
-                        </div>
-                        <button class="ml-auto rounded-full bg-white border border-blue text-blue px-6 py-1 font-bold">
-                            Follow
-                        </button>
-                    </div>
-                    % end
-                </div>
-            </div>
-            % # end you might like
-            % # trending
-            <div class="w-full bg-lightest rounded-lg mt-2">
-                <div class="flex items-center w-full p-2">
-                    <p class="text-lg font-bold">
-                        Trends for you
-                    </p>
-                    <i class="fa fa-cog ml-auto text-lg text-blue" aria-hidden="true"></i>
-                </div>
-                % for trend in trends:
-                <a class="flex w-full border-t p-2 hover:bg-lighter cursor-pointer">
-                    <div class="">
-                        <p class="">
-                            {{trend["top"]}}
-                        </p>
-                        <p class="font-bold">
-                            {{trend["title"]}}
-                        </p>
-                        <p class="">
-                            {{trend["bottom"]}}
-                        </p>
-                    </div>
-                    <i class="fa fa-angle-down ml-auto text-lg text-light" aria-hidden="true"></i>
-                </a>
-                % end
-            </div>
-            % # end trending
-        </div>
-        % # end right panel
-
-
-
+        
+        % include("rightpanel")
 
     </div>
     % # end app
 
+    % include("footer_bar_sticky")
 
 
     % include("footer")

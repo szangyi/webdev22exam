@@ -1,0 +1,45 @@
+
+        % # Side navbar
+        <div id="left_panel" class="flex flex-col justify-between w-1/4 border-r border-lighter px-8 py-4">
+
+            <div class="">
+                <a class="flex items-center py-2 px-4 text-blue ">
+                    <i class="fa fa-twitter fa-fw text-2xl mr-4" aria-hidden="true"></i>
+                </a>
+
+                % for tab in tabs:
+                <div class="mt-6">
+                    <a class="text-xl hover:bg-lighter rounded-full py-3 px-6" href="{{tab['href']}}">
+                        <i class="{{tab['icon']}}" aria-hidden="true"></i>
+                        <span class="ml-2">{{tab['title']}}</span>
+                    </a>
+                </div>
+                % end
+
+                <button class="mt-10 w-full text-white bg-blue rounded-full p-3 hover:bg-darkblue">
+                    <a href="./logout"> Log out</a>
+                </button>
+
+            </div>
+            <div class="w-full fixed bottom-0 mb-4">
+                <button class="flex items-center w-full">
+                    %if not user['image_ref']:
+                    <img src="images/default_user_profile_image.jpg" class="object-cover w-12 h-12 rounded-full border border-light shrink-0">
+                    %else:
+                    <img src="images/{{ user['image_ref'] }}" class="object-cover w-12 h-12 rounded-full border border-light shrink-0">
+                    %end
+
+                    <div class="ml-3 text-sm text-left">
+                        <p class="font-bold">{{user["user_first_name"]}} {{user["user_last_name"]}}</p>
+                        <p>@{{user["user_nick_name"]}}</p>
+                    </div>
+                    <div>
+                    <i class="fa fa-angle-down ml-auto" aria-hidden="true"></i>
+                </div>
+                </button>
+            </div>
+        </div>
+        % # end side navbar
+
+
+       

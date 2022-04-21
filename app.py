@@ -7,9 +7,9 @@ def _():
   return static_file("app.css", root=".")
 
 ##############################
-# @get("/style.css")
-# def _():
-#   return static_file("style.css", root="./style")
+@get("/custom.css")
+def _():
+  return static_file("custom.css", root=".")
 
 ##############################
 @get("/app.js")
@@ -38,6 +38,7 @@ import logout_get           # GET
 import user_profile_my_get  # GET
 import user_profile_any_get  # GET
 import upload_profile_image_get  #GET
+import user_update_get
 
 import signup_post          # POST
 import login_post           # POST
@@ -46,6 +47,7 @@ import tweet_delete_post    # POST
 import tweet_update_post    # POST
 import upload_profile_image_post  #POST
 import upload_default_profile_image_post  #POST
+import user_update_post
 
 
 

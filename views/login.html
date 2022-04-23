@@ -2,6 +2,17 @@
 
 <body class="bg-blue">
 <main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+
+    % if success == "signup_success":
+
+    <span class="bg-lightsuccess px-4 py-4 mb-6 rounded text-success items-center flex">
+        <i class="fa fa-check-circle mr-2 text-xl" aria-hidden="true"></i>
+        <p class="ml-2 text-md">Congrats! You successfully signed up and we sent a confirmation e-mail to you!</p>
+    </span>
+
+    % end
+
+
     <section>
         <h3 class="font-bold text-2xl">Welcome to Tweets-er</h3>
         <p class="text-gray-600 pt-2">Log in to your account.</p>

@@ -1,0 +1,78 @@
+% include("header_page_primary", title="Twitter")
+
+<!-- <body> -->
+<div id="app" class="flex h-screen w-full">
+
+    % include("sidebar_admin")
+
+    % # center
+    <div class="w-2/4 h-full ml-[25%]">
+
+        <p class="font-bold text-xl p-4">Home</p>
+
+        <div class="mt-4 border-b border-slate-200">
+            % for tweet in tweets:
+            <div class="p-4 border-t border-slate-200">
+                <div class="flex">
+                    <div class="w-full">
+                        <div class="pt-2">
+                            <div class="flex">
+                                <form action="/tweet_delete/<tweet_id>" method="POST">
+                                    <div class="flex">
+                                        <div class="mr-3">
+                                            <img src="images/{{ tweet['image_ref'] }}"
+                                                class="object-cover w-12 h-12 rounded-full border border-light shrink-0 mb-2">
+                                            <input type="hidden" id="user_any_email" name="user_any_email"
+                                                value="{{ tweet['user_email'] }}"> </input>
+                                            <input type="hidden" id="user_any_id" name="user_any_id"
+                                                value="{{tweet['user_id']}}"> </input>
+                                            <input name="tweet_id" type="hidden" 
+                                                value='{{ tweet["tweet_id"] }}'> </input>
+
+                                        </div>
+                                        <div class="">
+                                            <div class="flex">
+                                                <button class="font-bold text-sm">
+                                                    {{tweet["user_first_name"]}}
+                                                    {{tweet["user_last_name"]}}
+                                                </button>
+                                                <p class="ml-1 text-sm text-gray-500"> @{{tweet["user_nick_name"]}}
+                                                    · {{tweet["tweet_created_at"]}}
+                                                </p>
+                                            </div>
+                                            <p class="text-sm mt-1">
+                                                {{tweet["tweet_text"]}}
+                                            </p>
+                                            <button class=" text-sm text-error" name="submit" value="delete">Delete tweet</button>
+
+                                       
+                                        </div>
+
+                                    </div>
+                                </form>
+
+    
+                            </div>
+
+                         
+                        </div>
+
+
+                      
+                    </div>
+                </div>
+            </div>
+            % end
+        </div>
+    </div>
+    % # end center
+
+
+    % include("rightpanel_admin")
+
+</div>
+% # end app
+
+
+
+% include("footer")

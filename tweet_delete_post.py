@@ -1,7 +1,7 @@
 from bottle import post, redirect, request, view
 import time
-from time import gmtime, strftime
 import pymysql
+import g
 
 ##############################
 
@@ -9,27 +9,20 @@ import pymysql
 @view("user_profile")
 def _(tweet_id):
     try:
-
         ### DEFINE VARIABLES ###
         user_session_id = request.get_cookie("uuid4")
-
+        user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
         tweet_id = request.forms.get("tweet_id")
-
-        ### VALIDATE ###
-        # if len(tweet_title) < 1:
-        #     return redirect(f"tweets?error=tweet_title&tweet_desc={tweet_desc}&tweet_title={tweet_title}")
-        # if len(tweet_desc) < 1:
-        #     return redirect(f"tweets?error=tweet_desc&tweet_title={tweet_title}&tweet_desc={tweet_desc}")
-        
 
         ### CONNECT TO DB AND EXECUTE ###
         db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
+        cur = db.cursor()
         sql = """ DELETE FROM tweets 
         WHERE tweet_id=%s
         """
         var = (tweet_id)
         cur.execute(sql, var)
+
         db.commit()
         print("------------")
         print("tweet is deleted", tweet_id)
@@ -41,4 +34,8 @@ def _(tweet_id):
         print(ex)
     finally:
         db.close()
-    return redirect("/user_profile_my")
+    
+    if user_email == "admin@admin.com":
+        return redirect("/index_admin")
+    else:
+        return redirect("/user_profile_my")

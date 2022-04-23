@@ -9,6 +9,8 @@ COOKIE_SECRET = "my secret key"
 SESSIONS = []
 
 EMAIL_PW = "xaqba0-xyjfyh-dodcEj"
+APP_PW = "msllctgtbeflvlvm"
+# APP_PW = "msll ctgt befl vlvm"
 
 ##############################
 
@@ -19,7 +21,11 @@ TABS_LOGGEDIN = [
 ]
 
 TABS_LOGGEDOUT = [
-  {"icon": "fa fa-home", "title": "Home", "id":"home"},
+  {"icon": "fa fa-home", "title": "Home", "id":"home", "href":"./index"},
+]
+
+TABS_ADMIN = [
+  {"icon": "fa fa-home", "title": "Home", "id":"home", "href":"./index_admin"},
 ]
 
 PEOPLE = [

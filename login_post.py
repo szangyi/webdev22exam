@@ -17,10 +17,7 @@ def _():
     user_password = request.forms.get("user_password")    
     user_session_id = str(uuid.uuid4())
     user_created_at = str(int(time.time()))
-    print("-------useremail:-------")
-    print(user_email)
-    print("-------password:-------")
-    print(user_password)
+
 
     ### VALIDATE ###
     user_email, error_e = g._is_item_email(user_email)
@@ -98,8 +95,10 @@ def _():
         db.close()
 
 
+    user_password = user_password.lower() # lowercase Adminpassword string
     if user_email == "admin@admin.com" and user_password == "adminpassword":
-        return redirect("/admin")
+        print("-----admin")
+        return redirect("/index_admin")
     if user:
         if not user_image:
             redirect("/profile_image")

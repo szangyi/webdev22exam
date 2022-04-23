@@ -15,22 +15,18 @@ from PIL import Image
 @post("/profile_image_default")
 # @view("upload_profile_image")
 def _():
+    response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
+
+    ### DEFINE THE VARIABLES ###
+    user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
+    image_id = str(uuid.uuid4())  
+    image_name = "default_user_profile_image.jpg"
+
+    ### VALIDATE ###
+    image_id, error_id = g._is_uuid4(image_id)
+    if error_id : return g._send(400, error_id)
+
     try:
-
-        ### DEFINE THE VARIABLES ###
-        # response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
-        user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
-
-        image_id = str(uuid.uuid4())  
-        image_name = "default_user_profile_image.jpg"
-
-
-        ### VALIDATE ###
-        # Validate extension
-        # if file_extension not in (".png", ".jpeg", ".jpg"):
-        #     return "image not allowed"
-
-
         ### CONNECT TO DB AND EXECUTE ###
         db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
         cur = db.cursor()

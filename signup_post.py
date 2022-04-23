@@ -64,31 +64,35 @@ def _():
         cur.execute(sql, var)
         db.commit()
         print("user created successfully", user)
-########## EMAIL ####################
 
+
+        ### EMAIL ###
         sender_email = "szangyiwebdev@gmail.com"
         receiver_email = user_email
-        password = g.EMAIL_PW
-
+        # password = g.EMAIL_PW
+        password = g.APP_PW
 
         message = MIMEMultipart("alternative")
-        message["Subject"] = "Tweeter account"
+        message["Subject"] = "Your new Tweeter account"
         message["From"] = sender_email
         message["To"] = receiver_email
 
         text = """\
-        Hi,
-        Thank you.
+        Hey,
+
+        Thank you for creating an account on Twetter.
+        Enjoy!
+        Tweeter
         """
 
         html = """\
         <html>
             <body>
             <p>
-                Hi,<br>
-                Thank you for creating an account on Twitter.
+                Hey,<br>
+                Thank you for creating an account on Twetter.
                 <h2>Enjoy!</h2>
-                <em>Twitter</em>
+                <em>Twetter</em>
             </p>
             </body>
         </html>
@@ -105,11 +109,9 @@ def _():
             try:
                 server.login(sender_email, password)
                 server.sendmail(sender_email, receiver_email, message.as_string())
-                return redirect("/login?error=email_success")
             except Exception as ex:
                 print("-----error")
                 print(ex)
-                return redirect("/signup?error=email_error")
 
 
     except Exception as ex:
@@ -117,7 +119,7 @@ def _():
     finally:
         db.close()
 
-    return redirect("/login")
+    return redirect("/login?success=signup_success")
     
 
   

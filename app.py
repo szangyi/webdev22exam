@@ -30,6 +30,7 @@ def _(image_name):
 
 ##############################
 import home_get_loggedin    # GET  
+import home_get_admin       # GET  
 import home_get             # GET  
 import home_get_loggedout   # GET  
 import signup_get           # GET   
@@ -46,6 +47,7 @@ import tweet_add_post       # POST
 import tweet_delete_post    # POST
 import tweet_update_post    # POST
 import profile_image_post   # POST
+import profile_image_delete_post   # POST
 import profile_image_default_post   # POST
 import profile_image_update_post   # POST
 import user_update_post

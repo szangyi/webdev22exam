@@ -622,6 +622,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 1.7rem;
 }
 
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -688,6 +692,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[90\%\] {
+  width: 90%;
 }
 
 .max-w-lg {
@@ -817,13 +825,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(245 248 250 / var(--tw-bg-opacity));
 }
 
-.bg-slate-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
-}
-
-.bg-modalbackground {
-  background-color: rgba(43, 43, 43, .54);
+.bg-lightsuccess {
+  background-color: rgba(43, 191, 43, 0.31);
 }
 
 .object-cover {
@@ -1011,6 +1014,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+
+.text-success {
+  --tw-text-opacity: 1;
+  color: rgb(43 191 43 / var(--tw-text-opacity));
 }
 
 .text-gray-600 {

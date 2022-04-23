@@ -26,6 +26,8 @@ def _():
     upload.save(f"images/{image_name}")
 
     ### VALIDATE ###
+    image_id, error_id = g._is_uuid4(image_id)
+    if error_id : return g._send(400, error_id)
     imghdr_extension = imghdr.what(f"images/{image_name}")
     if ext != f".{imghdr_extension}":
         print("not an image")

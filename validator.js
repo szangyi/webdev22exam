@@ -61,3 +61,19 @@ function clear_validate_error(){
   event.target.classList.remove("validate_error")
   event.target.value = ""
 }
+
+
+// ##############################
+function validate_textarea() {
+  console.log('naa')
+  if(_one(".textsend").value=="") { 
+    console.log('ures')
+           _one('.textsend-button').disabled = true; 
+       } else { 
+        console.log('irott')
+           _one('.textsend-button').disabled = false;
+       }
+   }
+   
+
+

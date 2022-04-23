@@ -28,13 +28,17 @@ def _():
         db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
         cur = db.cursor() 
 
-        sql_sessions=""" SELECT * FROM sessions WHERE session_id =%s"""
+        sql_sessions=""" 
+        SELECT * 
+        FROM sessions 
+        WHERE session_id =%s"""
         cur.execute(sql_sessions, (user_session_id,))
         session = cur.fetchone()
         print(session)
 
         ## tweets + user info + tweet user image
-        sql = """SELECT * 
+        sql = """
+        SELECT * 
         FROM tweets 
         JOIN users
         ON tweets.tweet_user_email = users.user_email
@@ -48,7 +52,8 @@ def _():
         print(tweets)
         
         ## current user + current user's image
-        sql_user=""" SELECT * 
+        sql_user="""
+        SELECT * 
         FROM users
         JOIN users_images
         WHERE user_email =%s

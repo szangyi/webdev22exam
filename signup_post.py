@@ -6,14 +6,14 @@ import time
 from time import gmtime, strftime
 import pymysql
 
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 ##############################
 @post("/signup")
 def _():
     try:
-        
-        user_first_name, error = g._is_item_name(request.forms.get("user_first_name"))
-        if error : return g._send(400, error)
-
         ### DEFINE VARIABLES ###
         user_id = str(uuid.uuid4())
         user_first_name = request.forms.get("user_first_name")
@@ -33,25 +33,25 @@ def _():
         "user_created_at":user_created_at
         }
 
+        ### VALIDATE ###
+        user_id, error_id = g._is_uuid4(user_id)
+        if error_id : return g._send(400, error_id)
+        user_first_name, error_fn = g._is_item_textshort(user_first_name)
+        if error_fn : return g._send(400, error_fn)
+        user_last_name, error_ln = g._is_item_textshort(user_last_name)
+        if error_ln : return g._send(400, error_ln)
+        user_nick_name, error_nn = g._is_item_textmedium(user_nick_name)
+        if error_nn : return g._send(400, error_nn)
+        user_email, error_e = g._is_item_email(user_email)
+        if error_e : return g._send(400, error_e)
+        user_password, error_pw = g._is_item_textlong(user_password)
+        if error_pw : return g._send(400, error_pw)
+
         print("user:")
         print(user)
-        return redirect("/login")
+        
     except Exception as ex:
         print(ex)
-
-
-        ### VALIDATE ###
-    # if not user_first_name:
-    #     return redirect(f"/signup?error=user_first_name&user_last_name={user_last_name or ''}&user_nick_name={user_nick_name or ''}&user_email={user_email or ''}")
-    # if not user_last_name:
-    #     return redirect(f"/signup?error=user_last_name&user_first_name={user_first_name or ''}&user_nick_name={user_nick_name or ''}&user_email={user_email or ''}")
-    # if not user_nick_name:
-    #     return redirect(f"/signup?error=user_nick_name&user_first_name={user_first_name or ''}&user_last_name={user_last_name or ''}&user_email={user_email or ''}")
-    # if not user_email:
-    #     return redirect(f"/signup?error=user_email&user_first_name={user_first_name or ''}&user_last_name={user_last_name or ''}&user_nick_name={user_nick_name or ''}")
-    # if not user_password:
-    #     return redirect(f"/signup?error=user_password&user_name={user_first_name or ''}&user_last_name={user_last_name or ''}&user_nick_name={user_nick_name or ''}&user_email={user_email or ''}")
-
 
     try: 
         ### CONNECT TO DB AND EXECUTE ###
@@ -64,11 +64,60 @@ def _():
         cur.execute(sql, var)
         db.commit()
         print("user created successfully", user)
+########## EMAIL ####################
+
+        sender_email = "szangyiwebdev@gmail.com"
+        receiver_email = user_email
+        password = g.EMAIL_PW
+
+
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "Tweeter account"
+        message["From"] = sender_email
+        message["To"] = receiver_email
+
+        text = """\
+        Hi,
+        Thank you.
+        """
+
+        html = """\
+        <html>
+            <body>
+            <p>
+                Hi,<br>
+                Thank you for creating an account on Twitter.
+                <h2>Enjoy!</h2>
+                <em>Twitter</em>
+            </p>
+            </body>
+        </html>
+        """
+
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
+
+        message.attach(part1)
+        message.attach(part2)
+
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            try:
+                server.login(sender_email, password)
+                server.sendmail(sender_email, receiver_email, message.as_string())
+                return redirect("/login?error=email_success")
+            except Exception as ex:
+                print("-----error")
+                print(ex)
+                return redirect("/signup?error=email_error")
+
+
     except Exception as ex:
         print(ex)
     finally:
         db.close()
 
+    return redirect("/login")
     
 
   

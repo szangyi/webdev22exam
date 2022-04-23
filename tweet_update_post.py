@@ -9,6 +9,11 @@ import pymysql
 @post("/tweet_update/<tweet_id>")
 @view("user_profile")
 def _(tweet_id):
+    tweet_text, error = g._is_item_name(request.forms.get("tweet_text"))
+    if error : 
+        print("ERROR")
+        return g._send(400, error)
+        
     try:
 
         ### DEFINE VARIABLES ###

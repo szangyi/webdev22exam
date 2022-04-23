@@ -1,0 +1,42 @@
+% include("header_page_secondary", title="Upload profile image")
+
+
+<body class="bg-blue">
+    <main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+        <section>
+            <h3 class="font-bold text-2xl">Upload profile picture</h3>
+        </section>
+
+        % if error == "wrong_filetype":
+
+        <span class="bg-lighterror px-2 py-4 mt-4 rounded text-error items-center flex">
+            <i class="ml-2 fa fa-exclamation-circle"></i>
+            <p class="ml-2 text-xs">You can upload only .jpg, .jpeg, and .png files. Try again!</p>
+        </span>
+    
+        % end
+
+        <section class="mt-10">
+            <form class="flex flex-col" action="/profile_image" method="POST" enctype="multipart/form-data">
+
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_profile_image"></label>
+                    <input name="user_id" id="user_id" type="hidden" value='{{ user["user_id"] }}'>
+                    <input type="file" id="user_profile_image" name="upload">
+                </div>
+
+
+                <button
+                    class="bg-blue hover:bg-lightblue text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                    type="submit">Upload</button>
+            </form>
+        </section>
+    </main>
+
+    <div class="max-w-lg mx-auto text-center mt-12 mb-6">
+        <form action="/profile_image_default" method="POST"  enctype="multipart/form-data">
+            <button type="submit" class="text-white font-bold hover:underline">Skip</button>
+        </form>
+    </div>
+
+    % include("footer")

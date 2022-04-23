@@ -37,7 +37,7 @@ import login_get            # GET
 import logout_get           # GET
 import user_profile_my_get  # GET
 import user_profile_any_get  # GET
-import upload_profile_image_get  #GET
+import profile_image_get    #GET
 import user_update_get
 
 import signup_post          # POST
@@ -45,8 +45,9 @@ import login_post           # POST
 import tweet_add_post       # POST
 import tweet_delete_post    # POST
 import tweet_update_post    # POST
-import upload_profile_image_post  #POST
-import upload_default_profile_image_post  #POST
+import profile_image_post   # POST
+import profile_image_default_post   # POST
+import profile_image_update_post   # POST
 import user_update_post
 
 

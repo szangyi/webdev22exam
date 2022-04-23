@@ -12,46 +12,12 @@
         <section class="mt-10">
             <form class="flex flex-col" method="POST" action="/signup" onsubmit="validate(); return false">
 
-                <!-- <section>
-
-                    %if error == "user_first_name":
-                    <div class="error">
-                        <p>First name is too short</p>
-                    </div>
-                    %end
-        
-                    %if error == "user_last_name":
-                    <div class="error">
-                        <p>Last name is too short</p>
-                    </div>
-                    %end
-        
-                    %if error == "user_nick_name":
-                    <div class="error">
-                        <p>nick name is too short</p>
-                    </div>
-                    %end
-        
-                    %if error == "user_email":
-                    <div class="error">
-                        <p> The email is not in a validat format</p>
-                    </div>
-                    %end
-        
-                    %if error == "user_password":
-                    <div class="error">
-                        <p>Please enter a valid password</p>
-                    </div>
-                    %end
-                
-                </section> -->
-
                 <div class="mb-6 pt-3 rounded bg-gray-200">
                     <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_first_name">First
                         Name</label>
                     <input name="user_first_name" type="text" value="{{user_first_name or ''}}" 
                         class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-blue transition duration-500 px-3 pb-1 pt-1"
-                        data-validate="str" data-min="1" data-max="100">
+                        data-validate="str" data-min="2" data-max="100">
                     <span class="bg-lighterror p-2 rounded-bottom text-error items-center flex hidden">
                         <i class="ml-2 fa fa-exclamation-circle"></i>
                         <p class="ml-2 text-xs">Minimum 2 characters.</p>
@@ -63,7 +29,7 @@
                         Name</label>
                     <input name="user_last_name" type="text" value="{{user_last_name or ''}}"
                         class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-blue transition duration-500 px-3 pb-1 pt-1"
-                        data-validate="str" data-min="1" data-max="100">
+                        data-validate="str" data-min="2" data-max="100">
                     <span class="bg-lighterror p-2 rounded-bottom text-error items-center flex hidden">
                         <i class="ml-2 fa fa-exclamation-circle"></i>
                         <p class="ml-2 text-xs">Minimum 2 characters.</p>

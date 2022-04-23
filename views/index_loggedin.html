@@ -6,7 +6,7 @@
     % include("sidebar_loggedin")
 
     % # center
-    <div class="w-2/4 h-full">
+    <div class="w-2/4 h-full ml-[25%]">
 
         <p class="font-bold text-xl p-4">Home</p>
 
@@ -14,23 +14,23 @@
             <form action="/tweet_add" method="POST" class=" relative px-4 pt-4 pb-2 border border-blue1 rounded min-h-[8rem]">
                 <div class="flex">
                     <img src="images/{{ user['image_ref'] }}"
-                        class="object-cover w-12 h-12 mr-4 rounded-full border border-light shrink-0">
-                    <textarea class="w-full text-gray-800 border- outline-none placeholder:text-gray-800 pt-2 text-xl"
-                        placeholder="What is in your mind ?" name="tweet_text" id="tweet_text"></textarea>
+                        class="mb-5 object-cover w-12 h-12 mr-4 rounded-full border border-light shrink-0">
+                    <textarea class="textsend w-full text-gray-800 border- outline-none placeholder:text-gray-800 pt-2 text-xl"
+                        placeholder="What is in your mind ?" name="tweet_text" id="tweet_text" onkeyup="validate_textarea()"></textarea>
                 </div>
                 <div class="flex flex-col mt-2">
-                    <button class="self-end bottom-2 right-2 px-4 py-2 bg-blue hover:bg-darkblue text-white font-bold rounded-full">
+                    <button disabled class="transition duration-100 ease-in disabled:bg-light textsend-button self-end bottom-2 right-2 px-4 py-2 bg-blue hover:bg-darkblue text-white font-bold rounded-full">
                         Tweet
                     </button>
                 </div>
             </form>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 border-b border-slate-200">
             % for tweet in tweets:
             <div class="p-4 border-t border-slate-200">
                 <div class="flex">
-                    <div class="w-full pl-4">
+                    <div class="w-full">
                         <div class="pt-2">
                             <div class="flex">
                                 <form action="user_profile_any" method="GET">
@@ -49,7 +49,7 @@
                                                     {{tweet["user_first_name"]}}
                                                     {{tweet["user_last_name"]}}
                                                 </button>
-                                                <p class="ml-1 text-sm text-gray-400"> @{{tweet["user_nick_name"]}}
+                                                <p class="ml-1 text-sm text-gray-500"> @{{tweet["user_nick_name"]}}
                                                     · {{tweet["tweet_created_at"]}}
                                                 </p>
                                             </div>
@@ -57,9 +57,9 @@
                                                 {{tweet["tweet_text"]}}
                                             </p>
                     
-                                                <div class="flex gap-12 w-full mt-6 text-lg text-gray-400 font-sm">
+                                                <div class="flex gap-12 w-full mt-6 text-lg text-gray-500 font-sm">
                                                     <i class="fa fa-comment-o" aria-hidden="true"></i>
-                                                    <i class="fa fa-regular fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-regular fa-heart-o" aria-hidden="true"></i>
                                                     <i class="fa fa-retweet" aria-hidden="true"></i>
                                                     <i class="fa fa-share" aria-hidden="true"></i>
                                             </div>

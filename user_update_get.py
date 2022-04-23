@@ -9,9 +9,14 @@ import pymysql
 @view("settings")
 def _():
     try:
+        # url = format(request.url)
+        # print("url:")
+        # print(url)
+
         ### DEFINE THE VARIABLES ###
         response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
         user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
+        error = request.params.get("error")
        
         print(user_email)
 
@@ -37,6 +42,7 @@ def _():
         db.commit()
         
         return dict(
+            error=error,
             user_email=user_email,
             user=user,
             tabs=g.TABS_LOGGEDIN,

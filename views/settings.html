@@ -7,25 +7,101 @@
 
 
         % # center
-        <div class="w-2/4 h-full">
+        <div class="w-2/4 h-full ml-[25%]">
 
-            <section class="mt-10">
-                <form action="settings" method="POST">
+            <div class="flex p-4 items-center">
+                <i class="fa fa-arrow-left" aria-hidden="true" onclick="history.go(-1)"></i>
+                <p class="font-bold text-xl ml-4">Settings</p>
+            </div>
+
+            <section class="mt-10  pb-10 border-b border-lighter">
+                <form class="ml-3 mr-3" action="user_update" method="POST" onsubmit="validate(); return false">
+                    <p class="text-md text-gray-500 mb-8 font-bold uppercase">Account information</p>
                     <input name="user_id" type="hidden" value='{{ user["user_id"] }}'>
                     
-                    <div class="mb-6 pt-3 rounded">
-                        <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_first_name">First Name</label>
+                    <div class="mb-6 rounded text-sm flex items-center">
+                        <label class="block text-gray-700 text-sm font-bold" for="user_first_name">First Name</label>
                         <input name="user_first_name" type="text" value='{{ user["user_first_name"] }}'
-                            class="w-full text-gray-700 focus:outline-none border-gray-300 px-3 pb-3" >
+                            class="w-[40%] text-gray-700 focus:outline-none rounded border border-gray-300 px-2 py-1 ml-5" 
+                            data-validate="str" data-min="2" data-max="100">
+                        <span class=" p-2 rounded-bottom text-error items-center flex hidden">
+                                <i class="ml-2 fa fa-exclamation-circle"></i>
+                                <p class="ml-2 text-xs">Minimum 2 characters.</p>
+                        </span>
+                        </div>
+
+                    <div class="mb-6 rounded text-sm flex items-center">
+                        <label class="block text-gray-700 text-sm font-bold" for="user_last_name">Last Name</label>
+                        <input name="user_last_name" type="text" value='{{ user["user_last_name"] }}'
+                            class="w-[40%] text-gray-700 focus:outline-none rounded border border-gray-300 px-2 py-1 ml-5" 
+                            data-validate="str" data-min="2" data-max="100">
+                            <span class=" p-2 rounded-bottom text-error items-center flex hidden">
+                                <i class="ml-2 fa fa-exclamation-circle"></i>
+                                <p class="ml-2 text-xs">Minimum 2 characters.</p>
+                            </span>
+                        </div>
+
+                    <div class="mb-6 rounded text-sm flex items-center">
+                        <label class="block text-gray-700 text-sm font-bold" for="user_last_name">@nickname</label>
+                        <input name="user_nick_name" type="text" value='{{ user["user_nick_name"] }}'
+                            class="w-[40%] text-gray-700 focus:outline-none rounded border border-gray-300 px-2 py-1 ml-5" 
+                            data-validate="str" data-min="4" data-max="15">
+                            <span class=" p-2 rounded-bottom text-error text-xs items-center flex hidden">
+                                <i class="ml-2 fa fa-exclamation-circle"></i>
+                                <p class="ml-2 text-xs">Between 4 and 15 characters.</p>
+                            </span>
+                        </div>
+
+                    <div class="mb-6 rounded text-sm flex items-center">
+                        <label class="block text-gray-700 text-sm font-bold" for="user_email">E-mail</label>
+                        <input name="user_email" type="text" value='{{ user["user_email"] }}'
+                            class="w-[40%] text-gray-700 focus:outline-none rounded border border-gray-300 px-2 py-1 ml-5" 
+                            data-validate="email">
+                            <span class=" p-2 rounded-bottom text-error items-center flex hidden">
+                                <i class="ml-2 fa fa-exclamation-circle"></i>
+                                <p class="ml-2 text-xs">Please provide a valid e-mail address.</p>
+                            </span>
+                        </div>
+
+                    <div class="mb-6 rounded text-sm flex items-center">
+                        <label class="block text-gray-700 text-sm font-bold" for="user_password">Password</label>
+                        <input name="user_password" type="password" value='{{ user["user_password"] }}'
+                            class="w-[40%] text-gray-700 focus:outline-none rounded border border-gray-300 px-2 py-1 ml-5" 
+                            data-validate="str" data-min="10" data-max="100">
+                            <span class=" p-2 rounded-bottom text-error items-center flex hidden">
+                                <i class="ml-2 fa fa-exclamation-circle"></i>
+                                <p class="ml-2 text-xs">Minimum 10 characters.</p>
+                            </span>
+                        </div>
+ 
+                    <button class="text-blue hover:text-lightblue">Update profile</button>
+                </form>
+            </section>
+
+            <section class="mt-10 pb-32">
+                <form class="ml-3 mr-3" action="/profile_image_update" method="POST" enctype="multipart/form-data">
+                    <p class="text-md text-gray-500 mb-8 font-bold uppercase">Profile picture</p>
+
+                    <img src="images/{{user['image_ref']}}" class="object-cover w-24 h-24 rounded-full border border-light shrink-0 mb-1">
+
+                    <div class="mb-6 pt-3 ">
+                        <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_profile_image"></label>
+                        <input name="user_id" id="user_id" type="hidden" value='{{ user["user_id"] }}'>
+                        <input name="user_image_ref" id="user_image_ref" type="hidden" value='{{ user["image_ref"] }}'>
+                        <input name="user_image_id" id="user_image_id" type="hidden" value='{{ user["image_id"] }}'>
+                        <input class="text-sm" type="file" id="user_profile_image" name="upload">
                     </div>
 
-                    <div class="mb-6 pt-3 rounded">
-                        <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="user_last_name">Last Name</label>
-                        <input name="user_last_name" type="text" value='{{ user["user_last_name"] }}'
-                            class="w-full text-gray-700 focus:outline-none border-gray-300 px-3 pb-3" >
-                    </div>
- 
-                    <button class="button-02"> <i class="fa fa-pencil" aria-hidden="true"></i></button>
+                    % if error == "wrong_filetype":
+
+                    <span class="bg-lighterror px-2 py-4 mt-4 rounded text-error items-center flex">
+                        <i class="ml-2 fa fa-exclamation-circle"></i>
+                        <p class="ml-2 text-xs">You can upload only .jpg, .jpeg, and .png files. Try again!</p>
+                    </span>
+                
+                    % end
+    
+                    <button class="text-blue hover:text-lightblue">Upload profile picture</button>
                 </form>
             </section>
         </div>

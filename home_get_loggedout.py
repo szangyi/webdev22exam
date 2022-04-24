@@ -50,17 +50,19 @@ def _():
     
         db.commit()
 
-        ### RETURN ###
-        return dict(
-            tweets=tweets,
-            tabs=g.TABS_LOGGEDOUT,
-            people=g.PEOPLE,
-            trends=g.TRENDS
-            )
+
     except Exception as ex:
         print(ex)
     finally:
         db.close()
+    
+    ### RETURN ###
+    return dict(
+        tweets=tweets,
+        tabs=g.TABS_LOGGEDOUT,
+        people=g.PEOPLE,
+        trends=g.TRENDS
+        )
 
     
 

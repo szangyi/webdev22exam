@@ -77,11 +77,11 @@ def _():
         ### RETURN ###
         ##add error to dict
         return dict(
-          tweets=tweets,
-          user=user,
-          tabs=g.TABS_LOGGEDIN,
-          people=g.PEOPLE,
-          trends=g.TRENDS
+            tweets=tweets,
+            user=user,
+            tabs=g.TABS_LOGGEDIN,
+            people=g.PEOPLE,
+            trends=g.TRENDS
             )
     except Exception as ex:
         print(ex)

@@ -1,5 +1,6 @@
 from bottle import default_app, get, response, static_file, run
 import pymysql
+import g
 
 
 ##############################
@@ -56,26 +57,13 @@ import user_update_post
 
 ##############################
 try:
-  print("production mode")
-  import production
-  db_config = {
-    "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
-    "user":"szangyi", 
-    "password":"sedHuq-piwdyh-xergy9", 
-    "database":"szangyi$twitter", 
-    "cursorclass":pymysql.cursors.DictCursor
-  }
+    print("production mode")
+    import production
+    db_config = g.DB_PROD
 except Exception as ex:
-  print("development mode")
-  print(ex)
-  db_config = {
-    "host":"localhost", 
-    "port":8889,
-    "user":"root", 
-    "password":"root", 
-    "database":"twitter", 
-    "cursorclass":pymysql.cursors.DictCursor
-  }
+    print("development mode")
+    print(ex)
+    db_config = g.DB_DEV
 
 db = pymysql.connect(**db_config)
 cur = db.cursor()

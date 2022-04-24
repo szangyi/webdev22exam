@@ -18,14 +18,21 @@ def _():
         return redirect("/user_profile_my")
 
     try:
+        print("production mode")
+        import production
+        db_config = g.DB_PROD
+    except Exception as ex:
+        print("development mode")
+        print(ex)
+        db_config = g.DB_DEV
+
+    try:
         ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        db = pymysql.connect(**db_config)
         cur = db.cursor()
-        # sql_user=""" SELECT * FROM users WHERE user_email =%s"""
-        # cur.execute(sql_user, (user_email,))
-        # user = cur.fetchone()
-        # print("---------user")
-        # print(user)
+
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor()
 
         ##### tweets by user
         sql = """SELECT * 

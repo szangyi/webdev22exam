@@ -8,24 +8,36 @@ import pymysql
 @get("/settings")
 @view("settings")
 def _():
-    try:
-        # url = format(request.url)
-        # print("url:")
-        # print(url)
+    # url = format(request.url)
+    # print("url:")
+    # print(url)
 
-        ### DEFINE THE VARIABLES ###
-        response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
-        user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
-        error = request.params.get("error")
+    ### DEFINE THE VARIABLES ###
+    response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
+    user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
+    error = request.params.get("error")
        
-        print(user_email)
+    print(user_email)
 
-        ### VALIDATE ###
+    ### VALIDATE ###
 
+    try:
+        print("production mode")
+        import production
+        db_config = g.DB_PROD
 
+    except Exception as ex:
+        print("development mode")
+        print(ex)
+        db_config = g.DB_DEV
+
+    try:
         ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        db = pymysql.connect(**db_config)
         cur = db.cursor()
+
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor()
 
         ##### current user + current user's image
         sql_user=""" SELECT * 

@@ -1,5 +1,4 @@
-from bottle import default_app, get, response, static_file, run, request
-import git
+from bottle import default_app, get, response, static_file, run
 import pymysql
 
 
@@ -53,15 +52,6 @@ import profile_image_delete_post   # POST
 import profile_image_default_post   # POST
 import profile_image_update_post   # POST
 import user_update_post
-
-
-@app.route('/update_server', methods=['POST'])
-    def webhook():
-        if request.method == 'POST':
-            repo = git.Repo('path/to/git_repo')
-            origin = repo.remotes.origin
-origin.pull()
-
 
 
 ##############################

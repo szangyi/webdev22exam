@@ -7,37 +7,24 @@ import pymysql
 @view("index_loggedin")
 def _():
     response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
-    ### DEFINE THE VARIABLES ###
+
+################ DEFINE THE VARIABLES ################
     user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
     user_session_id = request.get_cookie("uuid4")
-
-    ### VALIDATE ###
 
     try:
         print("production mode")
         import production
         db_config = g.DB_PROD
-
     except Exception as ex:
         print("development mode")
         print(ex)
         db_config = g.DB_DEV
 
     try:
-        ### CONNECT TO DB AND EXECUTE ###
+################ CONNECT TO DB AND EXECUTE ################
         db = pymysql.connect(**db_config)
         cur = db.cursor()
-
-        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        # cur = db.cursor() 
-
-        sql_sessions=""" 
-        SELECT * 
-        FROM sessions 
-        WHERE session_id =%s"""
-        cur.execute(sql_sessions, (user_session_id,))
-        session = cur.fetchone()
-        print(session)
 
         ## tweets + user info + tweet user image
         sql = """
@@ -67,20 +54,19 @@ def _():
         print("---------user")
         print(user)
 
-
         db.commit()
+        response.status = 200
 
+################ RETURN ################
+        return dict(
+            tweets=tweets,
+            user=user,
+            tabs=g.TABS_LOGGEDIN,
+            people=g.PEOPLE,
+            trends=g.TRENDS
+            )
     except Exception as ex:
         print(ex)
+        response.status = 500
     finally:
         db.close()
-
-    ### RETURN ###
-    return dict(
-        tweets=tweets,
-        user=user,
-        tabs=g.TABS_LOGGEDIN,
-        people=g.PEOPLE,
-        trends=g.TRENDS
-        )
-

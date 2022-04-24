@@ -1,4 +1,4 @@
-from bottle import post, redirect, request, view
+from bottle import post, redirect, request, response, view
 import time
 from time import gmtime, strftime
 import g
@@ -9,7 +9,9 @@ import pymysql
 @post("/tweet_update/<tweet_id>")
 @view("user_profile")
 def _(tweet_id):
-    ### DEFINE VARIABLES ###
+    response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
+
+################ DEFINE THE VARIABLES ################
     user_session_id = request.get_cookie("uuid4")
     tweet_id = request.forms.get("tweet_id")
     tweet_text_update = request.forms.get("tweet_text")
@@ -17,7 +19,10 @@ def _(tweet_id):
     tweet_updated_at = strftime("%a, %d %b %Y %H:%M", gmtime())
     tweet_user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
 
-    ### VALIDATE ###
+    if not user_session_id:
+        return redirect("/login")
+
+################ VALIDATE ################
     tweet_text, error = g._is_item_tweet(request.forms.get("tweet_text"))
     if error : 
         print("ERROR")
@@ -33,12 +38,9 @@ def _(tweet_id):
         db_config = g.DB_DEV
         
     try:
-        ### CONNECT TO DB AND EXECUTE ###
+################ CONNECT TO DB AND EXECUTE ################
         db = pymysql.connect(**db_config)
         cur = db.cursor()
-
-        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        # cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
 
         sql = """ 
             UPDATE tweets 
@@ -46,16 +48,14 @@ def _(tweet_id):
             tweet_updated_at =%s
             WHERE tweet_id=%s
             """       
-
         var = (tweet_text_update, tweet_updated_at, tweet_id)
         cur.execute(sql, var)
         db.commit()
-        # response.status = 201
-        
+        response.status = 201
     except Exception as ex:
-        print("------------")
-        print("error")
         print(ex)
     finally:
         db.close()
+
+################ RETURN ################
     return redirect("/user_profile_my")

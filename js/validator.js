@@ -2,15 +2,12 @@ console.log("VALIDAAAATE")
 
 // ##############################
 function validate(callback){
-  console.log("VALIDAAAATE")
   const form = event.target
   console.log(form)
-  // const validate_error = "rgba(240, 130, 240, 0.2)"
   _all("[data-validate]",form).forEach(function(element){ 
     console.log(element)
     element.classList.remove("validate_error")
     element.nextElementSibling.classList.add("hidden")
-    // element.style.backgroundColor = "rgb(229, 231, 235, 1)"
   })
 
   _all("[data-validate]",form).forEach( function(element){
@@ -56,6 +53,7 @@ function validate(callback){
   _one(".validate_error", form).focus()
 }
 
+
 // ##############################
 function clear_validate_error(){
   event.target.classList.remove("validate_error")
@@ -65,12 +63,9 @@ function clear_validate_error(){
 
 // ##############################
 function validate_textarea() {
-  console.log('naa')
   if(_one(".textsend").value=="") { 
-    console.log('ures')
            _one('.textsend-button').disabled = true; 
        } else { 
-        console.log('irott')
            _one('.textsend-button').disabled = false;
        }
    }

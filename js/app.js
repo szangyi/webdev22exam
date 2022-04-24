@@ -1,4 +1,4 @@
-console.log("javascript loading hello")
+console.log("javascript loading")
 
 
 function _all(q, e = document) { return e.querySelectorAll(q) }
@@ -14,7 +14,7 @@ function toggleImageUpload() {
 
 // Toggle modal
 function toggleModal() {
-    console.log('toggll')
+    console.log('toggle')
     _one("#user-modal").classList.toggle("invisible")
     _one("#arrow-turn").classList.toggle("-scale-y-[1]")
     _one("#background-screen").classList.toggle("hidden")

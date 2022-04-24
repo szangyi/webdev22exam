@@ -16,13 +16,13 @@ APP_PW = "msllctgtbeflvlvm"
 ##############################
 
 TABS_LOGGEDIN = [
-  {"icon": "fa fa-home", "title": "Home", "id":"home", "href":"./index"},
+  {"icon": "fa fa-home", "title": "Home", "id":"home", "href":"./index_loggedin"},
   {"icon": "fa fa-user", "title": "Profile", "id": "profile", "href":"./user_profile_my"},
   {"icon": "fa fa-gear", "title": "Settings", "id": "settings", "href":"./settings"},
 ]
 
 TABS_LOGGEDOUT = [
-  {"icon": "fa fa-home", "title": "Home", "id":"home", "href":"./index"},
+  {"icon": "fa fa-home", "title": "Home", "id":"home", "href":"./index_loggedout"},
 ]
 
 TABS_ADMIN = [
@@ -66,7 +66,6 @@ DB_DEV = {
 
 def _send(status = 400, error_message = "unknown error"):
   response.status = status
-  print("SEND 400000000")
   return {"info":error_message}
 
 def _is_item_tweet(text=None):

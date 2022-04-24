@@ -22,7 +22,7 @@ def _():
         import production
         db_config = g.DB_PROD
 
-        ### DEFINE THE VARIABLES ###
+################ DEFINE THE VARIABLES ################
         user_id = request.forms.get("user_id")
         image_id_updated = str(uuid.uuid4())  
         upload = request.files.get("upload")  
@@ -32,7 +32,7 @@ def _():
         print(image_name_updated)
         upload.save(f"/home/szangyi/webdev22exam/images/{image_name_updated}", overwrite=True)  
     
-        ### VALIDATE ###
+################ VALIDATE ################
         image_id_updated, error_id = g._is_uuid4(image_id_updated)
         if error_id : return g._send(400, error_id)
         imghdr_extension = imghdr.what(f"/home/szangyi/webdev22exam/images/{image_name_updated}")  
@@ -54,7 +54,7 @@ def _():
         print(ex)
         db_config = g.DB_DEV
 
-        ### DEFINE THE VARIABLES ###
+################ DEFINE THE VARIABLES ################
         user_id = request.forms.get("user_id")
         image_id_updated = str(uuid.uuid4())  
         upload = request.files.get("upload")  
@@ -64,7 +64,7 @@ def _():
         print(image_name_updated)
         upload.save(f"images/{image_name_updated}", overwrite=True)  
 
-        ### VALIDATE ###
+################ VALIDATE ################
         image_id_updated, error_id = g._is_uuid4(image_id_updated)
         if error_id : return g._send(400, error_id)
         imghdr_extension = imghdr.what(f"images/{image_name_updated}")  
@@ -82,7 +82,7 @@ def _():
             upload.save(f"images/{image_name_updated}", overwrite=True) #NEW IMAGE - save to local
 
     try:
-        ### CONNECT TO DB AND EXECUTE ###
+################ DEFINE THE VARIABLES ################
         db = pymysql.connect(**db_config)
         cur = db.cursor()
 
@@ -96,16 +96,11 @@ def _():
         var = (image_id_updated, image_name_updated, user_id)
         cur.execute(sql, var)
         db.commit()
+        response.status = 200
     except Exception as ex:
-        print("------------")
-        print("error")
         print(ex)
+        response.status = 500
     finally:
+        db.close()
         return redirect("/settings")
-    
-
-    ### RETURN ###
-    # if session is None:
-    #     return redirect("/login")
-
     

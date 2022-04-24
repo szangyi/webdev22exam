@@ -1,4 +1,4 @@
-from bottle import post, request, redirect
+from bottle import post, request, response, redirect
 import uuid
 import re
 import g
@@ -10,16 +10,18 @@ import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-##############################
 @post("/signup")
 def _():
-    ### DEFINE VARIABLES ###
+    response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
+
+################ DEFINE THE VARIABLES ################
     user_id = str(uuid.uuid4())
     user_first_name = request.forms.get("user_first_name")
     user_last_name = request.forms.get("user_last_name")
     user_nick_name = request.forms.get("user_nick_name")
     user_email = request.forms.get("user_email")
     user_password = request.forms.get("user_password")
+    user_total_tweets = "0"
     user_created_at = strftime("%a, %d %b %Y %H:%M", gmtime())
 
     user = {
@@ -29,10 +31,11 @@ def _():
     "user_nick_name":user_nick_name, 
     "user_email":user_email,
     "user_password":user_password,
+    "user_total_tweets":user_total_tweets,
     "user_created_at":user_created_at
     }
 
-    ### VALIDATE ###
+################ VALIDATE ################
     user_id, error_id = g._is_uuid4(user_id)
     if error_id : return g._send(400, error_id)
     user_first_name, error_fn = g._is_item_textshort(user_first_name)
@@ -46,8 +49,6 @@ def _():
     user_password, error_pw = g._is_item_textlong(user_password)
     if error_pw : return g._send(400, error_pw)
 
-    print("user:")
-    print(user)    
     try:
         print("production mode")
         import production
@@ -106,26 +107,21 @@ def _():
                 print(ex) 
 
     try:
-        ### CONNECT TO DB AND EXECUTE ###
+################ CONNECT TO DB AND EXECUTE ################
         db = pymysql.connect(**db_config)
         cur = db.cursor()
 
-        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        # cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
-        
-        sql = """INSERT INTO users (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s)"""
-        var = (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at)
+        sql = """INSERT INTO users (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_total_tweets, user_created_at) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+        var = (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_total_tweets, user_created_at)
             
         cur.execute(sql, var)
         db.commit()
-        print("user created successfully", user)
-
-
-       
+        print("user created successfully", user) 
     except Exception as ex:
         print("error:")
         print(ex)
+        response.status = 500
     finally:
         db.close()
     return redirect("/login?success=signup_success")

@@ -2,39 +2,29 @@ from bottle import get, view, request, response, redirect
 import g
 import pymysql
 
-## lot to fix here, but first lets work on the tweet post
-##############################
-
-
-
 
 @get("/index_admin")
 @view("index_admin")
 def _():
     response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
-    # error = request.params.get("error")
+
+################ DEFINE THE VARIABLES ################
+    user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
+    user_session_id = request.get_cookie("uuid4")
+
     try:
-        ### DEFINE THE VARIABLES ###
-        user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
-        # print("----useremail")
-        # print(user_email)
-        user_session_id = request.get_cookie("uuid4")
-        # tweet_text = request.forms.get("tweet_text")
+        print("production mode")
+        import production
+        db_config = g.DB_PROD
+    except Exception as ex:
+        print("development mode")
+        print(ex)
+        db_config = g.DB_DEV
 
-        ### VALIDATE ###
-
-
-        ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        cur = db.cursor() 
-
-        sql_sessions=""" 
-        SELECT * 
-        FROM sessions 
-        WHERE session_id =%s"""
-        cur.execute(sql_sessions, (user_session_id,))
-        session = cur.fetchone()
-        print(session)
+    try:
+################ CONNECT TO DB AND EXECUTE ################
+        db = pymysql.connect(**db_config)
+        cur = db.cursor()
 
         ## tweets + user info + tweet user image
         sql = """
@@ -61,23 +51,22 @@ def _():
         """
         cur.execute(sql_user, (user_email,))
         user = cur.fetchone()
-        print("---------user")
-        print(user)
-
 
         db.commit()
-        ### RETURN ###
-        ##add error to dict
+        response.status = 200
+
+################ RETURN ################
         return dict(
-          tweets=tweets,
-          user=user,
-          user_email=user_email,
-          tabs=g.TABS_ADMIN,
-          people=g.PEOPLE,
-          trends=g.TRENDS
+            tweets=tweets,
+            user=user,
+            user_email=user_email,
+            tabs=g.TABS_ADMIN,
+            people=g.PEOPLE,
+            trends=g.TRENDS
             )
     except Exception as ex:
         print(ex)
+        response.status = 500
     finally:
         db.close()
     

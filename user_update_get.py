@@ -12,34 +12,30 @@ def _():
     # print("url:")
     # print(url)
 
-    ### DEFINE THE VARIABLES ###
+################ DEFINE THE VARIABLES ################
     response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
     user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
     error = request.params.get("error")
-       
-    print(user_email)
 
-    ### VALIDATE ###
+    user_session_id = request.get_cookie("uuid4")
+    if user_session_id is None:
+        redirect("/login")
 
     try:
         print("production mode")
         import production
         db_config = g.DB_PROD
-
     except Exception as ex:
         print("development mode")
         print(ex)
         db_config = g.DB_DEV
 
     try:
-        ### CONNECT TO DB AND EXECUTE ###
+################ CONNECT TO DB AND EXECUTE ################
         db = pymysql.connect(**db_config)
         cur = db.cursor()
 
-        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        # cur = db.cursor()
-
-        ##### current user + current user's image
+        ## current user + current user's image
         sql_user=""" SELECT * 
         FROM users
         JOIN users_images
@@ -49,10 +45,9 @@ def _():
         cur.execute(sql_user, (user_email,))
         user = cur.fetchone()
 
-        
-       
         db.commit()
-        
+
+################ RETURN ################
         return dict(
             error=error,
             user_email=user_email,
@@ -61,8 +56,8 @@ def _():
             people=g.PEOPLE,
             trends=g.TRENDS
             )
-
     except Exception as ex:
         print(ex)
+        response.status = 500
     finally:
         db.close()

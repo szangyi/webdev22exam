@@ -10,36 +10,35 @@ import pymysql
 from PIL import Image  
 
 
-##############################
 @post("/profile_image_delete")
 @view("settings")
 def _():
     response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
+    user_session_id = request.get_cookie("uuid4")
 
     try:
         print("production mode")
         import production
         db_config = g.DB_PROD
     
-        ### DEFINE THE VARIABLES ###
+################ DEFINE THE VARIABLES ################
         user_id = request.forms.get("user_id")
         image_name_prev = request.forms.get("user_image_ref")
         os.remove(f"/home/szangyi/webdev22exam/images/{image_name_prev}") # remove old
         image_name_default = "default_user_profile_image.jpg" # use default
-
     except Exception as ex:
         print("development mode")
         print(ex)
         db_config = g.DB_DEV
 
-        ### DEFINE THE VARIABLES ###
+################ DEFINE THE VARIABLES ################
         user_id = request.forms.get("user_id")
         image_name_prev = request.forms.get("user_image_ref")
         os.remove(f"images/{image_name_prev}") # remove old
         image_name_default = "default_user_profile_image.jpg" # use default
 
     try:
-        ### CONNECT TO DB AND EXECUTE ###
+################ CONNECT TO DB AND EXECUTE ################
         db = pymysql.connect(**db_config)
         cur = db.cursor()
 
@@ -53,16 +52,12 @@ def _():
         cur.execute(sql, var)
 
         db.commit()
+        response.status = 201
     except Exception as ex:
-        print("------------")
-        print("error")
         print(ex)
+        response.status = 500
     finally:
+        db.close()
         return redirect("/settings")
-    
-
-    ### RETURN ###
-    # if session is None:
-    #     return redirect("/login")
 
     

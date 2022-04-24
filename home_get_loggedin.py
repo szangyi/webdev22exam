@@ -79,7 +79,6 @@ def _():
         return dict(
           tweets=tweets,
           user=user,
-          user_email=user_email,
           tabs=g.TABS_LOGGEDIN,
           people=g.PEOPLE,
           trends=g.TRENDS

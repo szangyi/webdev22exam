@@ -1,5 +1,6 @@
 from bottle import response, redirect, view, route
 import re
+import pymysql
 
 
 REGEX_EMAIL = '^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
@@ -40,6 +41,25 @@ TRENDS = [
   {"top": "Trending in US", "title": "Denim Day", "bottom": "40k tweets"},
 ]
 
+
+############################## DB
+
+DB_PROD = {
+  "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
+  "user":"szangyi", 
+  "password":"sedHuq-piwdyh-xergy9", 
+  "database":"szangyi$twitter", 
+  "cursorclass":pymysql.cursors.DictCursor
+}
+
+DB_DEV = {
+  "host":"localhost", 
+  "port":8889,
+  "user":"root", 
+  "password":"root", 
+  "database":"twitter", 
+  "cursorclass":pymysql.cursors.DictCursor
+}
 
 
 ############################## VALIDATION

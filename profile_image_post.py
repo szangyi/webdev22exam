@@ -14,7 +14,6 @@ import pymysql
 
 ##############################
 @post("/profile_image")
-# @view("up
 def _():
     ### DEFINE THE VARIABLES ###
     user_id = request.forms.get("user_id")
@@ -36,9 +35,36 @@ def _():
         # return "image not allowed"
 
     try:
+        print("production mode")
+        import production
+        db_config = {
+        "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
+        "user":"szangyi", 
+        "password":"sedHuq-piwdyh-xergy9", 
+        "database":"szangyi$twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
+
+    except Exception as ex:
+        print("development mode")
+        print(ex)
+        db_config = {
+        "host":"localhost", 
+        "port":8889,
+        "user":"root", 
+        "password":"root", 
+        "database":"twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
+
+    try:
         ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        db = pymysql.connect(**db_config)
         cur = db.cursor()
+
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor()
+
         sql = """INSERT INTO users_images (image_id, fk_user_id, image_ref) 
         VALUES (%s, %s, %s)
         """

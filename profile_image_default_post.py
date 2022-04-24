@@ -27,9 +27,35 @@ def _():
     if error_id : return g._send(400, error_id)
 
     try:
+        print("production mode")
+        import production
+        db_config = {
+        "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
+        "user":"szangyi", 
+        "password":"sedHuq-piwdyh-xergy9", 
+        "database":"szangyi$twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
+
+    except Exception as ex:
+        print("development mode")
+        print(ex)
+        db_config = {
+        "host":"localhost", 
+        "port":8889,
+        "user":"root", 
+        "password":"root", 
+        "database":"twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
+
+    try:
         ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        db = pymysql.connect(**db_config)
         cur = db.cursor()
+
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor()
 
         ## current user
         sql_user = """ SELECT *

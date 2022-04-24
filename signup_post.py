@@ -58,6 +58,7 @@ def _():
         "database":"szangyi$twitter", 
         "cursorclass":pymysql.cursors.DictCursor
         }
+
     except Exception as ex:
         print("development mode")
         print(ex)
@@ -70,24 +71,7 @@ def _():
         "cursorclass":pymysql.cursors.DictCursor
         }
 
-    try:
-        ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(**db_config)
-        cur = db.cursor()
-
-        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        # cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
-        
-        sql = """INSERT INTO users (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s)"""
-        var = (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at)
-            
-        cur.execute(sql, var)
-        db.commit()
-        print("user created successfully", user)
-
-
-        ### EMAIL ###
+        ### EMAIL - only in development mode ###
         sender_email = "szangyiwebdev@gmail.com"
         receiver_email = user_email
         # password = g.EMAIL_PW
@@ -132,7 +116,26 @@ def _():
                 server.sendmail(sender_email, receiver_email, message.as_string())
             except Exception as ex:
                 print("-----error")
-                print(ex)
+                print(ex) 
+
+    try:
+        ### CONNECT TO DB AND EXECUTE ###
+        db = pymysql.connect(**db_config)
+        cur = db.cursor()
+
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
+        
+        sql = """INSERT INTO users (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+        var = (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at)
+            
+        cur.execute(sql, var)
+        db.commit()
+        print("user created successfully", user)
+
+
+       
     except Exception as ex:
         print("error:")
         print(ex)

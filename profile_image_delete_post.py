@@ -23,9 +23,36 @@ def _():
     image_name_default = "default_user_profile_image.jpg" # use default
 
     try:
+        print("production mode")
+        import production
+        db_config = {
+        "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
+        "user":"szangyi", 
+        "password":"sedHuq-piwdyh-xergy9", 
+        "database":"szangyi$twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
+
+    except Exception as ex:
+        print("development mode")
+        print(ex)
+        db_config = {
+        "host":"localhost", 
+        "port":8889,
+        "user":"root", 
+        "password":"root", 
+        "database":"twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
+
+    try:
         ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        db = pymysql.connect(**db_config)
         cur = db.cursor()
+
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor()
+
         sql = """ 
             UPDATE users_images 
             SET image_ref =%s

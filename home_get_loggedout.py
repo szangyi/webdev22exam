@@ -19,28 +19,40 @@ def _():
     print(user_session_id)
     print("*******not logged in")
 
+    # try:
+    #     print("production mode")
+    #     import production
+    #     db_config = {
+    #     "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
+    #     "user":"szangyi", 
+    #     "password":"sedHuq-piwdyh-xergy9", 
+    #     "database":"szangyi$twitter", 
+    #     "cursorclass":pymysql.cursors.DictCursor
+    #     }
+
+    # except Exception as ex:
+    #     print("development mode")
+    #     print(ex)
+    #     db_config = {
+    #     "host":"localhost", 
+    #     "port":8889,
+    #     "user":"root", 
+    #     "password":"root", 
+    #     "database":"twitter", 
+    #     "cursorclass":pymysql.cursors.DictCursor
+    #     }
+
+
+
     try:
         print("production mode")
         import production
-        db_config = {
-        "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
-        "user":"szangyi", 
-        "password":"sedHuq-piwdyh-xergy9", 
-        "database":"szangyi$twitter", 
-        "cursorclass":pymysql.cursors.DictCursor
-        }
+        db_config = g.DB_PROD
 
     except Exception as ex:
         print("development mode")
         print(ex)
-        db_config = {
-        "host":"localhost", 
-        "port":8889,
-        "user":"root", 
-        "password":"root", 
-        "database":"twitter", 
-        "cursorclass":pymysql.cursors.DictCursor
-        }
+        db_config = g.DB_dev
 
     try:
         ### CONNECT TO DB AND EXECUTE ###

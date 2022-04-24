@@ -6,17 +6,39 @@ import pymysql
 
 @get("/logout")
 def _(): 
+    ### DEFINE THE VARIABLES ###
+    user_session_id = request.get_cookie("uuid4")
+
     try:
-        ### DEFINE THE VARIABLES ###
-        # response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
-        user_session_id = request.get_cookie("uuid4")
-        print("##########ez lesz torolve")
-        print(user_session_id)
+        print("production mode")
+        import production
+        db_config = {
+        "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
+        "user":"szangyi", 
+        "password":"sedHuq-piwdyh-xergy9", 
+        "database":"szangyi$twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
 
+    except Exception as ex:
+        print("development mode")
+        print(ex)
+        db_config = {
+        "host":"localhost", 
+        "port":8889,
+        "user":"root", 
+        "password":"root", 
+        "database":"twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
 
+    try:
         ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        cur = db.cursor() 
+        db = pymysql.connect(**db_config)
+        cur = db.cursor()
+
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor() 
 
         sql=""" DELETE FROM sessions WHERE session_id =%s"""
         cur.execute(sql, (user_session_id,))

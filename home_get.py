@@ -8,7 +8,7 @@ import pymysql
 
 
 
-@get("/index")
+@get("/")
 # @view("index_loggedin")
 def _():
     response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")

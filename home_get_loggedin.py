@@ -12,21 +12,42 @@ import pymysql
 @view("index_loggedin")
 def _():
     response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
-    # error = request.params.get("error")
+    ### DEFINE THE VARIABLES ###
+    user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
+    user_session_id = request.get_cookie("uuid4")
+
+    ### VALIDATE ###
+
     try:
-        ### DEFINE THE VARIABLES ###
-        user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
-        # print("----useremail")
-        # print(user_email)
-        user_session_id = request.get_cookie("uuid4")
-        # tweet_text = request.forms.get("tweet_text")
+        print("production mode")
+        import production
+        db_config = {
+        "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
+        "user":"szangyi", 
+        "password":"sedHuq-piwdyh-xergy9", 
+        "database":"szangyi$twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
 
-        ### VALIDATE ###
+    except Exception as ex:
+        print("development mode")
+        print(ex)
+        db_config = {
+        "host":"localhost", 
+        "port":8889,
+        "user":"root", 
+        "password":"root", 
+        "database":"twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
 
-
+    try:
         ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        cur = db.cursor() 
+        db = pymysql.connect(**db_config)
+        cur = db.cursor()
+
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor() 
 
         sql_sessions=""" 
         SELECT * 

@@ -15,6 +15,8 @@ import pymysql
 ##############################
 @post("/profile_image")
 def _():
+    response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
+
     try:
         print("production mode")
         import production

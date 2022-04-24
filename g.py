@@ -9,8 +9,8 @@ COOKIE_SECRET = "my secret key"
 SESSIONS = []
 
 EMAIL_PW = "xaqba0-xyjfyh-dodcEj"
+MYSQL_PW = "sedHuq-piwdyh-xergy9"
 APP_PW = "msllctgtbeflvlvm"
-# APP_PW = "msll ctgt befl vlvm"
 
 ##############################
 

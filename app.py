@@ -1,4 +1,5 @@
-from bottle import default_app, delete, error, get, request, response, static_file, run
+from bottle import default_app, get, response, static_file, run
+import pymysql
 
 
 ##############################
@@ -7,19 +8,19 @@ def _():
   return static_file("app.css", root=".")
 
 ##############################
-@get("/custom.css")
+@get("/css/custom.css")
 def _():
-  return static_file("custom.css", root=".")
+  return static_file("custom.css", root="./css")
 
 ##############################
-@get("/app.js")
+@get("/js/app.js")
 def _():
-  return static_file("app.js", root=".")
+  return static_file("app.js", root="./js")
 
 ##############################
-@get("/validator.js")
+@get("/js/validator.js")
 def _():
-  return static_file("validator.js", root=".")
+  return static_file("validator.js", root="./js")
 
 ##############################
 @get("/images/<image_name>")
@@ -56,11 +57,37 @@ import user_update_post
 
 ##############################
 try:
+  print("production mode")
+  import production
+  db_config = {
+    "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
+    "user":"szangyi", 
+    "password":"sedHuq-piwdyh-xergy9", 
+    "database":"szangyi$twitter", 
+    "cursorclass":pymysql.cursors.DictCursor
+  }
+except Exception as ex:
+  print("development mode")
+  print(ex)
+  db_config = {
+    "host":"localhost", 
+    "port":8889,
+    "user":"root", 
+    "password":"root", 
+    "database":"twitter", 
+    "cursorclass":pymysql.cursors.DictCursor
+  }
+
+db = pymysql.connect(**db_config)
+cur = db.cursor()
+
+
+##############################
+try:
+  print("production mode")
   import production
   application = default_app()
 except Exception as ex:
+  print("development mode")
+  print(ex)  
   run(host="127.0.0.1", port=1111, debug=True, reloader=True, server="paste")
-
-
-
-

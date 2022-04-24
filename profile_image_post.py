@@ -15,42 +15,58 @@ import pymysql
 ##############################
 @post("/profile_image")
 def _():
-    ### DEFINE THE VARIABLES ###
-    user_id = request.forms.get("user_id")
-    image_id = str(uuid.uuid4())  
-    upload = request.files.get("upload")
-    name, ext = os.path.splitext(upload.filename) # .png .jpeg .zip .mp4
-    if ext == ".jpg": ext = ".jpeg"
-    image_name = f"{image_id}{ext}" # Create new image name
-    upload.save(f"images/{image_name}")
-
-    ### VALIDATE ###
-    image_id, error_id = g._is_uuid4(image_id)
-    if error_id : return g._send(400, error_id)
-    imghdr_extension = imghdr.what(f"images/{image_name}")
-    if ext != f".{imghdr_extension}":
-        print("not an image")
-        os.remove(f"images/{image_name}")
-        return redirect("/profile_image?error=wrong_filetype")
-        # return "image not allowed"
-
     try:
         print("production mode")
         import production
         db_config = g.DB_PROD
+
+        ### DEFINE THE VARIABLES ###
+        user_id = request.forms.get("user_id")
+        image_id = str(uuid.uuid4())  
+        upload = request.files.get("upload")
+        name, ext = os.path.splitext(upload.filename) # .png .jpeg .zip .mp4
+        if ext == ".jpg": ext = ".jpeg"
+        image_name = f"{image_id}{ext}" # Create new image name
+        upload.save(f"/home/szangyi/webdev22exam/images/{image_name}")
+
+        ### VALIDATE ###
+        image_id, error_id = g._is_uuid4(image_id)
+        if error_id : return g._send(400, error_id)
+        imghdr_extension = imghdr.what(f"/home/szangyi/webdev22exam/images/{image_name}")
+        if ext != f".{imghdr_extension}":
+            print("not an image")
+            os.remove(f"/home/szangyi/webdev22exam/images/{image_name}")
+            return redirect("/profile_image?error=wrong_filetype")
+            # return "image not allowed"
 
     except Exception as ex:
         print("development mode")
         print(ex)
         db_config = g.DB_DEV
 
+        ### DEFINE THE VARIABLES ###
+        user_id = request.forms.get("user_id")
+        image_id = str(uuid.uuid4())  
+        upload = request.files.get("upload")
+        name, ext = os.path.splitext(upload.filename) # .png .jpeg .zip .mp4
+        if ext == ".jpg": ext = ".jpeg"
+        image_name = f"{image_id}{ext}" # Create new image name
+        upload.save(f"images/{image_name}")
+
+        ### VALIDATE ###
+        image_id, error_id = g._is_uuid4(image_id)
+        if error_id : return g._send(400, error_id)
+        imghdr_extension = imghdr.what(f"images/{image_name}")
+        if ext != f".{imghdr_extension}":
+            print("not an image")
+            os.remove(f"images/{image_name}")
+            return redirect("/profile_image?error=wrong_filetype")
+            # return "image not allowed"
+
     try:
         ### CONNECT TO DB AND EXECUTE ###
         db = pymysql.connect(**db_config)
         cur = db.cursor()
-
-        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        # cur = db.cursor()
 
         sql = """INSERT INTO users_images (image_id, fk_user_id, image_ref) 
         VALUES (%s, %s, %s)

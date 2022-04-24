@@ -2,11 +2,6 @@ from bottle import get, view, request, response, redirect
 import g
 import pymysql
 
-## lot to fix here, but first lets work on the tweet post
-##############################
-
-
-
 
 @get("/index_loggedin")
 @view("index_loggedin")

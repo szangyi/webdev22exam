@@ -1,4 +1,4 @@
-from bottle import response, redirect, view, route
+from bottle import response
 import re
 import pymysql
 

@@ -63,7 +63,6 @@ def _():
         response.status = 200
     except Exception as ex:
         print(ex)
-        response.status = 500
 
 ################ RETURN ################
     if not user:
@@ -79,7 +78,6 @@ def _():
         response.set_cookie("uuid4", user_session_id)
     except Exception as ex:
         print(ex)
-        response.status = 500
     finally:
         db.close()
 

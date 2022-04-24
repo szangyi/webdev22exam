@@ -24,11 +24,36 @@ def _():
     if error_e : return g._send(400, error_e)
     user_password, error_pw = g._is_item_textlong(user_password)
     if error_pw : return g._send(400, error_pw)
-       
+    
+    try:
+        print("production mode")
+        import production
+        db_config = {
+        "host":"szangyi.mysql.eu.pythonanywhere-services.com", 
+        "user":"szangyi", 
+        "password":"sedHuq-piwdyh-xergy9", 
+        "database":"szangyi$twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
+    except Exception as ex:
+        print("development mode")
+        print(ex)
+        db_config = {
+        "host":"localhost", 
+        "port":8889,
+        "user":"root", 
+        "password":"root", 
+        "database":"twitter", 
+        "cursorclass":pymysql.cursors.DictCursor
+        }
+
     try:
         ### CONNECT TO DB AND EXECUTE ###
-        db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-        cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
+        db = pymysql.connect(**db_config)
+        cur = db.cursor()
+        
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
 
         # current user
         sql = """

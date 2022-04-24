@@ -70,70 +70,74 @@ def _():
         "cursorclass":pymysql.cursors.DictCursor
         }
 
-    db = pymysql.connect(**db_config)
-    cur = db.cursor()
-    
-    ### CONNECT TO DB AND EXECUTE ###
-    # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
-    # cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
-    sql = """INSERT INTO users (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at) 
-    VALUES (%s, %s, %s, %s, %s, %s, %s)"""
-    var = (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at)
+    try:
+        ### CONNECT TO DB AND EXECUTE ###
+        db = pymysql.connect(**db_config)
+        cur = db.cursor()
+
+        # db = pymysql.connect(host="localhost", port=8889,user="root",password="root", database="twitter", cursorclass=pymysql.cursors.DictCursor)
+        # cur = db.cursor() #cursorClass in PyMyPy by default generates Dictionary as output
         
-    cur.execute(sql, var)
-    db.commit()
-    print("user created successfully", user)
+        sql = """INSERT INTO users (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+        var = (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_created_at)
+            
+        cur.execute(sql, var)
+        db.commit()
+        print("user created successfully", user)
 
 
-    ### EMAIL ###
-    sender_email = "szangyiwebdev@gmail.com"
-    receiver_email = user_email
-    # password = g.EMAIL_PW
-    password = g.APP_PW
+        ### EMAIL ###
+        sender_email = "szangyiwebdev@gmail.com"
+        receiver_email = user_email
+        # password = g.EMAIL_PW
+        password = g.APP_PW
 
-    message = MIMEMultipart("alternative")
-    message["Subject"] = "Your new Tweeter account"
-    message["From"] = sender_email
-    message["To"] = receiver_email
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "Your new Tweeter account"
+        message["From"] = sender_email
+        message["To"] = receiver_email
 
-    text = """\
-    Hey,
+        text = """\
+        Hey,
 
-    Thank you for creating an account on Twetter.
-    Enjoy!
-    Tweeter
-    """
+        Thank you for creating an account on Twetter.
+        Enjoy!
+        Tweeter
+        """
 
-    html = """\
-    <html>
-        <body>
-        <p>
-            Hey,<br>
-            Thank you for creating an account on Twetter.
-            <h2>Enjoy!</h2>
-            <em>Twetter</em>
-        </p>
-        </body>
-    </html>
-    """
+        html = """\
+        <html>
+            <body>
+            <p>
+                Hey,<br>
+                Thank you for creating an account on Twetter.
+                <h2>Enjoy!</h2>
+                <em>Twetter</em>
+            </p>
+            </body>
+        </html>
+        """
 
-    part1 = MIMEText(text, "plain")
-    part2 = MIMEText(html, "html")
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
 
-    message.attach(part1)
-    message.attach(part2)
+        message.attach(part1)
+        message.attach(part2)
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-        try:
-            server.login(sender_email, password)
-            server.sendmail(sender_email, receiver_email, message.as_string())
-        except Exception as ex:
-            print("-----error")
-            print(ex)
-
-    db.close()
-
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            try:
+                server.login(sender_email, password)
+                server.sendmail(sender_email, receiver_email, message.as_string())
+            except Exception as ex:
+                print("-----error")
+                print(ex)
+    except Exception as ex:
+        print("error:")
+        print(ex)
+    finally:
+        db.close()
     return redirect("/login?success=signup_success")
     
 

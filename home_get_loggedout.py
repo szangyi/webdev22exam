@@ -33,7 +33,7 @@ def _():
         ON tweets.tweet_user_email = users.user_email
         JOIN users_images
         ON users.user_id = users_images.fk_user_id
-        ORDER BY tweet_created_at  DESC
+        ORDER BY tweet_created_at_epoch  DESC
         """
         cur.execute(sql_tweets)
         tweets = cur.fetchall() 

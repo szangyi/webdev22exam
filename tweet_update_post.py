@@ -16,6 +16,7 @@ def _(tweet_id):
     tweet_id = request.forms.get("tweet_id")
     tweet_text_update = request.forms.get("tweet_text")
     tweet_created_at = request.forms.get("tweet_created_at")
+    tweet_updated_at_epoch = str(int(time.time()))
     tweet_updated_at = strftime("%a, %d %b %Y %H:%M", gmtime())
     tweet_user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
 
@@ -45,10 +46,11 @@ def _(tweet_id):
         sql = """ 
             UPDATE tweets 
             SET tweet_text =%s,
+            tweet_updated_at_epoch =%s,
             tweet_updated_at =%s
             WHERE tweet_id=%s
             """       
-        var = (tweet_text_update, tweet_updated_at, tweet_id)
+        var = (tweet_text_update, tweet_updated_at_epoch, tweet_updated_at, tweet_id)
         cur.execute(sql, var)
         db.commit()
         response.status = 201

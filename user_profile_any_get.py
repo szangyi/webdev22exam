@@ -42,7 +42,7 @@ def _():
         JOIN users
         WHERE tweets.tweet_user_email = users.user_email
         AND users.user_email = %s
-        ORDER BY tweet_created_at  DESC
+        ORDER BY tweet_created_at_epoch  DESC
         """
         cur.execute(sql, (user_any_email,))
         tweets = cur.fetchall() 

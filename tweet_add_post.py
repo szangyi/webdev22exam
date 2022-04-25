@@ -3,6 +3,7 @@ import g
 import uuid
 import time
 from time import gmtime, strftime
+from datetime import datetime
 import pymysql
 
 ##############################
@@ -14,9 +15,12 @@ def _():
     user_session_id = request.get_cookie("uuid4")
     tweet_id = str(uuid.uuid4())  
     tweet_text = request.forms.get("tweet_text")
+    tweet_created_at_epoch = str(int(time.time()))
     tweet_created_at = strftime("%a, %d %b %Y %H:%M", gmtime())
+    tweet_updated_at_epoch = str(int(time.time()))
     tweet_updated_at = strftime("%a, %d %b %Y %H:%M", gmtime())
     tweet_user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
+
 
 ################ VALIDATE ################
     tweet_text, error = g._is_item_tweet(tweet_text)
@@ -40,10 +44,10 @@ def _():
         cur = db.cursor()
 
         sql = """
-        INSERT INTO tweets (tweet_id, tweet_text, tweet_created_at, tweet_updated_at, tweet_user_email ) 
-        VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO tweets (tweet_id, tweet_text, tweet_created_at_epoch, tweet_created_at, tweet_updated_at_epoch, tweet_updated_at, tweet_user_email ) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
-        var = (tweet_id, tweet_text, tweet_created_at, tweet_updated_at, tweet_user_email)
+        var = (tweet_id, tweet_text, tweet_created_at_epoch, tweet_created_at, tweet_updated_at_epoch, tweet_updated_at, tweet_user_email)
         cur.execute(sql, var)
         db.commit()
         print("tweet created successfully")

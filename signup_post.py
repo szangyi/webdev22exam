@@ -22,6 +22,7 @@ def _():
     user_email = request.forms.get("user_email")
     user_password = request.forms.get("user_password")
     user_total_tweets = "0"
+    user_created_at_epoch = str(int(time.time()))
     user_created_at = strftime("%a, %d %b %Y %H:%M", gmtime())
 
     user = {
@@ -32,6 +33,7 @@ def _():
     "user_email":user_email,
     "user_password":user_password,
     "user_total_tweets":user_total_tweets,
+    "user_created_at_epoch":user_created_at,
     "user_created_at":user_created_at
     }
 
@@ -111,9 +113,9 @@ def _():
         db = pymysql.connect(**db_config)
         cur = db.cursor()
 
-        sql = """INSERT INTO users (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_total_tweets, user_created_at) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
-        var = (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_total_tweets, user_created_at)
+        sql = """INSERT INTO users (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_total_tweets, user_created_at_epoch, user_created_at) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+        var = (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_total_tweets, user_created_at_epoch, user_created_at)
             
         cur.execute(sql, var)
         db.commit()

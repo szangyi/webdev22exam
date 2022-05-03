@@ -39,7 +39,7 @@
                                     <div class="flex">
                                         <div class="mr-3">
                                             <img src="images/{{ tweet['image_ref'] }}"
-                                                class="object-cover h-12 rounded-full border border-light shrink-0 mb-2  min-w-[3rem] w-full">
+                                                class="object-cover h-12 rounded-full border border-light shrink-0 mb-2  min-w-[3rem] max-w-[3rem] w-full">
                                             <input type="hidden" id="user_any_email" name="user_any_email"
                                                 value="{{ tweet['user_email'] }}"> </input>
                                             <input type="hidden" id="user_any_id" name="user_any_id"
@@ -82,7 +82,6 @@
         <div class="bg-lightest rounded margin-center w-3/4 p-4">
             <p class="text-lg font-bold text-blue text-center">Don't miss what's happening</p>
             <p class="text-md font-bold mb-4 text-center">People to follow</p>
-
             <div class="margin-center w-3/4">
                 % for person in people:
                 <div class="flex items-center justify-between">
@@ -114,8 +113,6 @@
                 </div>
                 % end
             </div>
-
-
         </div>
         % end 
     </div>

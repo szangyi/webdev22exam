@@ -8,7 +8,6 @@ import pymysql
 
 ##############################
 @post("/unfollow")
-@view("user_profile_any")
 def _():
     response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
 

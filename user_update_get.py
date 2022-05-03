@@ -55,11 +55,13 @@ def _():
         WHERE user_email NOT IN
 	        (SELECT user_email_receiver 
             FROM follows
-            WHERE status = 1)
+            WHERE status = 1
+            AND user_email_initiator=%s)
         AND user_email != "admin@admin.com"
         ORDER BY RAND()
         LIMIT 3
         """
+        cur.execute(sql_people, (user_email,))
         cur.execute(sql_people)
         people = cur.fetchall()
 

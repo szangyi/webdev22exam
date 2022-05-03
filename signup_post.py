@@ -56,7 +56,6 @@ def _():
         ### EMAIL - only in development mode ###
         sender_email = "szangyiwebdev@gmail.com"
         receiver_email = user_email
-        # password = g.EMAIL_PW
         password = g.APP_PW
 
         message = MIMEMultipart("alternative")

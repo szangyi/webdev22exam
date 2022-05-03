@@ -39,7 +39,7 @@ import signup_get           # GET
 import login_get            # GET
 import logout_get           # GET
 import user_profile_my_get  # GET
-import user_profile_any_get  # GET
+import user_profile_any_get # GET
 import profile_image_get    #GET
 import user_update_get
 
@@ -52,9 +52,9 @@ import profile_image_post   # POST
 import profile_image_delete_post   # POST
 import profile_image_default_post   # POST
 import profile_image_update_post   # POST
-import user_update_post
-import follow_post
-import unfollow_post
+import user_update_post     # POST
+import follow_post          # POST
+import unfollow_post        # POST
 
 
 

@@ -71,21 +71,20 @@ def _():
         """
         cur.execute(sql_user_any, (user_any_email,))
         user_any = cur.fetchone()
-        print("userannnyyyyyyy:")
-        print(user_any)
 
         ## people to follow
         sql_people = """
-        SELECT * 
-        FROM users
+        SELECT * FROM users
         WHERE user_email NOT IN
-	        (SELECT user_email_receiver FROM follows
-            WHERE status = 1)
+	        (SELECT user_email_receiver 
+            FROM follows
+            WHERE status = 1
+            AND user_email_initiator=%s)
         AND user_email != "admin@admin.com"
         ORDER BY RAND()
         LIMIT 3
         """
-        cur.execute(sql_people)
+        cur.execute(sql_people, (user_email,))
         people = cur.fetchall()
         print("people to follow:")
         print(people)
@@ -100,8 +99,6 @@ def _():
         var = (user_email, user_any_email)
         cur.execute(sql_follow, var)
         follow = cur.fetchone()
-        print("follow or not:")
-        print(follow)
 
         db.commit()
         

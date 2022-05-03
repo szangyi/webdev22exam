@@ -754,12 +754,20 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 85%;
 }
 
+.w-\[3rem\] {
+  width: 3rem;
+}
+
 .min-w-\[3rem\] {
   min-width: 3rem;
 }
 
 .max-w-lg {
   max-width: 32rem;
+}
+
+.max-w-\[3rem\] {
+  max-width: 3rem;
 }
 
 .shrink-0 {

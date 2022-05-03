@@ -1,4 +1,5 @@
 # from urllib import response
+from telnetlib import STATUS
 from bottle import get, view, request, redirect, response
 import g
 import pymysql
@@ -15,6 +16,10 @@ def _():
     user_any_email = request.params.get("user_any_email")
     user_session_id = request.get_cookie("uuid4")
     print(user_any_email)
+
+################ COOKIE ################
+    prev_url = request.url
+    response.set_cookie("prev_url", prev_url)
 
     if user_email == user_any_email:
         return redirect("/user_profile_my")
@@ -66,6 +71,37 @@ def _():
         """
         cur.execute(sql_user_any, (user_any_email,))
         user_any = cur.fetchone()
+        print("userannnyyyyyyy:")
+        print(user_any)
+
+        ## people to follow
+        sql_people = """
+        SELECT * 
+        FROM users
+        WHERE user_email NOT IN
+	        (SELECT user_email_receiver FROM follows
+            WHERE status = 1)
+        AND user_email != "admin@admin.com"
+        ORDER BY RAND()
+        LIMIT 3
+        """
+        cur.execute(sql_people)
+        people = cur.fetchall()
+        print("people to follow:")
+        print(people)
+
+        ## follows
+        sql_follow = """
+        SELECT *
+        FROM follows
+        WHERE user_email_initiator =%s
+        AND user_email_receiver =%s
+        """
+        var = (user_email, user_any_email)
+        cur.execute(sql_follow, var)
+        follow = cur.fetchone()
+        print("follow or not:")
+        print(follow)
 
         db.commit()
         
@@ -76,8 +112,9 @@ def _():
             user_any=user_any,
             user_email=user_email,
             user_any_email=user_any_email,
+            follow=follow,
             tabs=g.TABS_LOGGEDIN,
-            people=g.PEOPLE,
+            people=people,
             trends=g.TRENDS
             )
     except Exception as ex:

@@ -16,6 +16,7 @@ def _():
 
 ################ DEFINE THE VARIABLES ################
     user_id = str(uuid.uuid4())
+    follow_id = str(uuid.uuid4())
     user_first_name = request.forms.get("user_first_name")
     user_last_name = request.forms.get("user_last_name")
     user_nick_name = request.forms.get("user_nick_name")
@@ -25,21 +26,12 @@ def _():
     user_created_at_epoch = str(int(time.time()))
     user_created_at = strftime("%a, %d %b %Y %H:%M", gmtime())
 
-    user = {
-    "user_id":user_id, 
-    "user_first_name":user_first_name, 
-    "user_last_name":user_last_name, 
-    "user_nick_name":user_nick_name, 
-    "user_email":user_email,
-    "user_password":user_password,
-    "user_total_tweets":user_total_tweets,
-    "user_created_at_epoch":user_created_at,
-    "user_created_at":user_created_at
-    }
 
 ################ VALIDATE ################
     user_id, error_id = g._is_uuid4(user_id)
     if error_id : return g._send(400, error_id)
+    follow_id, error_f_id = g._is_uuid4(follow_id)
+    if error_f_id : return g._send(400, error_f_id)
     user_first_name, error_fn = g._is_item_textshort(user_first_name)
     if error_fn : return g._send(400, error_fn)
     user_last_name, error_ln = g._is_item_textshort(user_last_name)
@@ -116,10 +108,18 @@ def _():
         sql = """INSERT INTO users (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_total_tweets, user_created_at_epoch, user_created_at) 
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
         var = (user_id, user_first_name, user_last_name, user_nick_name, user_email, user_password, user_total_tweets, user_created_at_epoch, user_created_at)
-            
         cur.execute(sql, var)
+        print("user created successfully") 
+
+        sql_follow = """
+        INSERT INTO follows (follow_id, user_email_initiator, user_email_receiver, status) 
+        VALUES (%s, %s, %s, 1)
+        """
+        var = (follow_id, user_email, user_email)
+        cur.execute(sql_follow, var)
+
+
         db.commit()
-        print("user created successfully", user) 
     except Exception as ex:
         print("error:")
         print(ex)

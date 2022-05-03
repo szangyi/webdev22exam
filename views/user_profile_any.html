@@ -3,6 +3,8 @@
 <body>
     <div id="app" class="flex h-screen w-full">
 
+        % include("rightpanel")
+        
         % include("sidebar_loggedin")
 
         % # center
@@ -27,10 +29,37 @@
     
                     </p>
                 </div>
+
+
+                % if not follow :
+                <form action="follow" method="POST" class="ml-auto">
+                        <input type="hidden" id="user_email_receiver" name="user_email_receiver"
+                        value="{{ user_any['user_email'] }}"> </input>
+                        <input type="hidden" id="user_any_id" name="user_any_id" value="{{ user_any['user_id'] }}"> 
+                        <button type="submit" class="transition duration-100 ease-in ml-auto rounded-full bg-black border-black text-white hover:bg-opacity-80 px-6 py-1 font-bold">
+                            Follow
+                        </button>
+                </form>
+
+                % else :
+                <form action="unfollow" method="POST" class="ml-auto">
+                        <input type="hidden" id="user_email_receiver" name="user_email_receiver"
+                        value="{{ user_any['user_email'] }}"> </input>
+                        <input type="hidden" id="user_any_id" name="user_any_id" value="{{ user_any['user_id'] }}"> 
+                        <button type="submit" class=" transition duration-100 ease-in ml-auto rounded-full bg-white border border-black text-black hover:bg-black hover:text-white px-6 py-1 font-bold">
+                            Unfollow
+                        </button>
+                </form>
+                % end 
+
+
+
             </div>
 
             <div class="p-4">
-                <img src="images/{{user_any['image_ref']}}" class="object-cover w-24 h-24 rounded-full border border-light shrink-0 mb-5">
+                <div class="flex mb-5">
+                    <img src="images/{{user_any['image_ref']}}" class="object-cover w-24 h-24 rounded-full border border-light shrink-0">
+                </div>
 
                 <p class="font-bold">
                     {{user_any["user_first_name"]}}
@@ -86,9 +115,6 @@
             </div>
         </div>
         % # end center
-
-
-        % include("rightpanel")
 
     </div>
     % # end app

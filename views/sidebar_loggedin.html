@@ -16,10 +16,35 @@
                 </div>
                 % end
 
+                <div id="background-tweet-screen" class=" w-screen h-screen absolute hidden top-0 left-0 bg-modalbackground z-50" onclick="toggleTweetModal()"></div>
+    
+                <div id="tweet-modal" class="tweet-add-container px-6 pt-5 pb-8 mt-4 absolute w-[45vw] ml-[100%] z-50 bg-white top-[15vh] rounded-3xl hidden">
+                    <i class="fa fa-times mb-4 text-slate-500 cursor-pointer" aria-hidden="true" onclick="toggleTweetModal()"></i>
+
+                    <form action="/tweet_add" method="POST" class=" relative px-4 pt-4 pb-2 border border-blue1 rounded min-h-[8rem] ">
+                        <div class="flex">
+                            <img src="images/{{ user['image_ref'] }}"
+                                class="object-cover w-12 h-12 mr-4 rounded-full border border-light shrink-0">
+                            <input class="textsend-modal w-full text-gray-800 border- outline-none placeholder:text-gray-800 text-xl"
+                                placeholder="What is in your mind ?" name="tweet_text" id="tweet_text" onkeyup="validate_textmodal()">
+                        </div>
+                        <div class="flex flex-col mt-2">
+                            <button disabled class="transition duration-100 ease-in disabled:bg-light textsend-modal-button self-end bottom-2 right-2 px-4 py-2 bg-blue hover:bg-darkblue text-white font-bold rounded-full">
+                                Tweet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="flex py-3 mt-5 px-6">
+                    <button class="cursor-pointer transition duration-100 ease-in self-end bottom-2 right-2 px-4 py-3 bg-blue hover:bg-darkblue text-white font-bold rounded-full w-full" 
+                    onclick="toggleTweetModal()">
+                        Tweet
+                    </button>
+                </div>
+
             </div>
-            <div id="background-screen" class="z-10 w-screen h-screen absolute hidden" onclick="toggleModal()">
-            
-            </div>
+            <div id="background-screen" class="z-10 w-screen h-screen absolute hidden top-0 left-0" onclick="toggleUserModal()"></div>
             <div id="user-modal" class="z-20 boxshadow-modal bg-white rounded-lg mt-auto mb-6 text-sm arrow-bottom invisible ">
                 
                 <div class="p-4 flex items-center">
@@ -39,7 +64,7 @@
             </div>
           
             <div class="mb-4 z-20" >
-                <button class="flex items-center w-full" onclick="toggleModal()">
+                <button class="flex items-center w-full" onclick="toggleUserModal()">
     
                     <img src="images/{{ user['image_ref'] }}" class="object-cover w-10 h-10 rounded-full border border-light shrink-0">
 

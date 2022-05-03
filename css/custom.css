@@ -17,6 +17,14 @@
 
 }
 
+.margin-center {
+    margin: 0 auto;
+}
+
+.scale-y-mirror {
+    transform:scale(-1)
+}
+
 .arrow-bottom:after {
     content: " ";
     position: relative;

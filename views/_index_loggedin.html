@@ -17,7 +17,7 @@
                 <div class="flex">
                     <img src="images/{{ user['image_ref'] }}"
                         class="mb-5 object-cover w-12 h-12 mr-4 rounded-full border border-light shrink-0">
-                    <textarea class="disabled textsend w-full text-gray-800 border- outline-none placeholder:text-gray-800 pt-2 text-xl"
+                    <textarea class="textsend w-full text-gray-800 border- outline-none placeholder:text-gray-800 pt-2 text-xl"
                         placeholder="What is in your mind ?" name="tweet_text" id="tweet_text" onkeyup="validate_textarea()"></textarea>
                 </div>
                 <div class="flex flex-col mt-2">
@@ -34,7 +34,7 @@
                 <div class="flex">
                     <div class="w-full">
                         <div class="pt-2">
-                            <div class="flex">
+                            <div class="flex relative">
                                 <form action="user_profile_any" method="GET" class="w-full">
                                     <div class="flex">
                                         <div class="mr-3">
@@ -70,13 +70,56 @@
                                         </div>
                                     </div>
                                 </form>
+
+                   
+
+                                
+                                % if tweet['user_email'] != user['user_email'] : 
+
+                                    % for count, tweet in enumerate(tweets):
+                                        % print(count, tweet)
+                                        % print(tweet[2]['user_email'])
+                                    % end 
+
+
+                                <i class="fa fa-ellipsis-h text-slate-500 cursor-pointer ml-auto" aria-hidden="true" onclick="toggleUserAnyModal()"></i>
+                                <div id="user-any-modal" class="z-20 boxshadow-modal bg-white rounded-lg text-sm right-0 absolute hidden">
+                                    <form action="unfollow" method="POST" class="ml-auto">
+                                        <p> {{ tweet['user_email'] }}  </p>
+                                        <p> {{ user['user_email'] }}  </p>
+                                        <input type="hidden" id="user_email_receiver" name="user_email_receiver"
+                                        value="{{ tweet['user_email'] }}"> </input>
+                                        <input type="hidden" id="user_any_id" name="user_any_id" value="{{ tweet['user_id'] }}"> 
+                                        <div class="">
+                                            <div class="p-4">
+                                                <button type="submit">
+                                                    Unfollow
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                                % end 
+
+
                             </div>
-                        </div> 
+
+                      
+
+                         
+                        </div>
+
+
+                      
                     </div>
                 </div>
             </div>
             % end
         </div>
+
+        <div id="background-user-any-screen" class="z-10 w-screen h-screen absolute hidden top-0 left-0" onclick="toggleUserAnyModal()"></div>
+
 
         % if tweets_length < 5 :
         <div class="bg-lightest rounded margin-center w-3/4 p-4">

@@ -7,27 +7,16 @@ from datetime import datetime
 import pymysql
 
 ##############################
-@post("/tweet_add")
+@post("/follow")
 def _():
     response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
 
 ################ DEFINE THE VARIABLES ################
+    follow_id = str(uuid.uuid4())  
+    user_email_initiator = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
+    user_email_receiver = request.forms.get("user_email_receiver")
     user_session_id = request.get_cookie("uuid4")
-    tweet_id = str(uuid.uuid4())  
-    tweet_text = request.forms.get("tweet_text")
-    tweet_created_at_epoch = str(int(time.time()))
-    tweet_created_at = strftime("%a, %d %b %Y %H:%M", gmtime())
-    tweet_updated_at_epoch = str(int(time.time()))
-    tweet_updated_at = strftime("%a, %d %b %Y %H:%M", gmtime())
-    tweet_user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
     prev_url = request.get_cookie("prev_url")
-
-
-################ VALIDATE ################
-    tweet_text, error = g._is_item_tweet(tweet_text)
-    if error : 
-        print("ERROR")
-        return g._send(400, error)
 
     try:
         print("production mode")
@@ -45,13 +34,13 @@ def _():
         cur = db.cursor()
 
         sql = """
-        INSERT INTO tweets (tweet_id, tweet_text, tweet_created_at_epoch, tweet_created_at, tweet_updated_at_epoch, tweet_updated_at, tweet_user_email ) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO follows (follow_id, user_email_initiator, user_email_receiver, status) 
+        VALUES (%s, %s, %s, 1)
         """
-        var = (tweet_id, tweet_text, tweet_created_at_epoch, tweet_created_at, tweet_updated_at_epoch, tweet_updated_at, tweet_user_email)
+        var = (follow_id, user_email_initiator, user_email_receiver)
         cur.execute(sql, var)
         db.commit()
-        print("tweet created successfully")
+        print("new follow")
         response.status = 201
     except Exception as ex:
         print("------------")

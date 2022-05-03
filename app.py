@@ -53,6 +53,9 @@ import profile_image_delete_post   # POST
 import profile_image_default_post   # POST
 import profile_image_update_post   # POST
 import user_update_post
+import follow_post
+import unfollow_post
+
 
 
 ##############################

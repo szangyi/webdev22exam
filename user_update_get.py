@@ -17,6 +17,10 @@ def _():
     user_email = request.get_cookie("user_email", secret=g.COOKIE_SECRET)
     error = request.params.get("error")
 
+################ COOKIE ################
+    prev_url = request.url
+    response.set_cookie("prev_url", prev_url)
+
     user_session_id = request.get_cookie("uuid4")
     if user_session_id is None:
         redirect("/login")
@@ -45,6 +49,21 @@ def _():
         cur.execute(sql_user, (user_email,))
         user = cur.fetchone()
 
+        ## people to follow
+        sql_people = """
+        SELECT * FROM users
+        WHERE user_email NOT IN
+	        (SELECT user_email_receiver 
+            FROM follows
+            WHERE status = 1)
+        AND user_email != "admin@admin.com"
+        ORDER BY RAND()
+        LIMIT 3
+        """
+        cur.execute(sql_people)
+        people = cur.fetchall()
+
+
         db.commit()
 
 ################ RETURN ################
@@ -53,7 +72,7 @@ def _():
             user_email=user_email,
             user=user,
             tabs=g.TABS_LOGGEDIN,
-            people=g.PEOPLE,
+            people=people,
             trends=g.TRENDS
             )
     except Exception as ex:
